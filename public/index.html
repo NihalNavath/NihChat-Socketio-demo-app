@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<head>
+    <script src = "/socket.io/socket.io.js"></script>
+
+    <title>
+        NihChat
+    </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class = "main">
+        <div id = "login">
+            <h1 class = "middle">NIHCHAT</h1>
+            <div id = "error"></div>
+                <input id = "name" type = "text" name = "name" placeholder = "Enter your name!">
+                <button type = "button" name = "button" onclick = "setUsername()">
+                    Chat!
+                </button>
+            
+        </div>
+
+        <div id = "chat">
+            <div id = "total-online"></div>
+            <div class = "input-div"><input type = "text" id = "chat-box" placeholder="type here..."></div>
+            <div id = "border" style="overflow-y: scroll; height:800px;"><div id = "message-container"></div> </div>
+        </div>
+
+        <div id = "connecting-message">
+            <h1 class = "leftspace">Disconnected</h1>
+            <div class = "loading"></div> 
+            <h3 class = "adjacent">Attempting to reconnect...</h3>
+        </div>
+    </div>
+
+    <script src = "clientSide.js"></script>
+</body>
