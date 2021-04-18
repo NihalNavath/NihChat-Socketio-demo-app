@@ -21,9 +21,10 @@
  SS of chat page - 
 <img src = "/imgs/NihChat.png">
 
-Features -
+Features - <br>
 • Disconnection notifier. <br>
 • Login system.<br>
+• Remembers History.
 • Username per user limit.<br>
 • Online users board.<br>
 • Simple ui.<br>
