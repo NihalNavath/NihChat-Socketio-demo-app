@@ -24,7 +24,7 @@
 Features - <br>
 • Disconnection notifier. <br>
 • Login system.<br>
-• Remembers History.
+• Remembers History.<br>
 • Username per user limit.<br>
 • Online users board.<br>
 • Simple ui.<br>
