@@ -1,36 +1,93 @@
 <!DOCTYPE html>
+
 <head>
-    <script src = "/socket.io/socket.io.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
 
-    <title>
-        NihChat
-    </title>
-    <link rel="stylesheet" href="style.css">
+	<title>NihChat</title>
+	<link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
-    <div class = "main">
-        <div id = "login">
-            <h1 class = "middle">NIHCHAT</h1>
-            <div id = "error"></div>
-                <input id = "name" type = "text" name = "name" placeholder = "Enter your name!">
-                <button type = "button" name = "button" onclick = "setUsername()">
-                    Chat!
-                </button>
-            
-        </div>
-
-        <div id = "chat">
-            <div id = "total-online"></div>
-            <div class = "input-div"><input type = "text" id = "chat-box" placeholder="type here..."></div>
-            <div id = "border" style="overflow-y: scroll; height:800px;"><div id = "message-container"></div> </div>
-        </div>
-
-        <div id = "connecting-message">
-            <h1 class = "leftspace">Disconnected</h1>
-            <div class = "loading"></div> 
-            <h3 class = "adjacent">Attempting to reconnect...</h3>
-        </div>
-    </div>
-
-    <script src = "clientSide.js"></script>
+	<div class="main">
+		<div id="login">
+			<h1>NIHCHAT</h1>
+			<div id="error"></div>
+			<input
+				id="name"
+				type="text"
+				name="name"
+				placeholder="Enter your username!">
+            </input>
+			<button type="button" name="button" onclick="connect()">
+				Chat!
+			</button>
+		<div id="source-text-container">
+			<p>An <a href="https://github.com/SegsyNihal/NihChat-Socketio-demo-app" target="_blank"> Open source project</a>
+				2021</p>
+			<p> <a href="changelog.txt" target="_blank"> ChangeLog </a> </p>
+		</div>
+		</div>
+		<div id="chat-area">
+			<div id="online-list"></div>
+			<div id="online-list-names">
+				<button onclick="pin()" id="pinbutton">📌</button>
+				<h2 style="text-align: center" id="online-listh1">
+					Currently Online
+				</h2>
+				<div id="online-list-names2">
+					
+				</div>
+			</div>
+			<div
+				id="message-container-border"
+				class="border"
+				style="overflow-y: scroll; height: 800px"
+			>
+				<div id="message-container"></div>
+			</div>
+        	<div id = "type-area">
+			<div id = "ui-buttons"> 
+            	<img id="gui-settings" src="/imgs/gui/settings.png" title="Settings">
+				<img id="srccode-icon" src="/imgs/icons/srccodeicon.png" title="See the source code!" onclick="sourceCodeOpen()">
+			</div>
+            <div id="settings-menu">
+				<div id="status-changer">
+					<h3>Change status to:</h3> 
+					<div id = "status-flexbox-container">
+						<div id="status-online">🟢 Online </div>
+						<div id="status-away">🟡 Away </div>
+						<div id="status-dnd">🔴 Do Not Disturb </div>
+					</div>
+				</div>
+				<div id="danger-zone">
+					<p id = "danger-text">Danger Zone:</p>
+					<button id="clear-messages">Clear Chat</button>
+				</div>
+            </div>
+			<input
+				type="text"
+				id="chat-box"
+				placeholder="Enter your message here..."
+			/>
+        	</div>
+		</div>
+		<div id="client-error">
+			<h1>Error!</h1>
+			<h3 class="errortext" id="error-contents">Hmm a error shoud be displayed here. Try reloading.</h3>
+			<button id="hide-error">Ok! 👀</button>
+		</div>
+		<div id="client-prompt">
+			<h1 id = "prompt-title">Error displaying title</h1>
+			<h3 id="prompt-text">Hmm a prompt shoud be displayed here. Try reloading.</h3>
+			<button id="prompt-button-yes">Yes!</button>
+			<button id="prompt-button-no">No!</button>
+		</div>
+		<div id="connecting-message">
+			<h1 class="leftspace">Disconnected</h1>
+			<div class="loading"></div>
+			<h3 class="adjacent">Attempting to reconnect...</h3>
+			<h4 class="adjacent" id="attempt-number">Attempt 0/10</h4>
+		</div>
+	</div>
+	<script src="client.js"></script>
 </body>

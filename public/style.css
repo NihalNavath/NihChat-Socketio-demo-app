@@ -1,123 +1,262 @@
-body{
-    background-color: lightblue;
-    margin: 0;
-    padding: 0;
+body {
+	background-color: lightblue;
+	margin: 0;
+	padding: 0;
 }
 
-p{
-    margin: 0;
-    padding: 0;
+p {
+	margin: 0;
+	padding: 0;
 }
 
-#login{
-    border: 5px solid #FFFF00;
-    border-radius: 10;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 20%;
-    height: 20vh;
-    width: 20vh;
-    position: absolute;
-    left: 45%;
-    background-color: grey;
-    box-shadow: 0 18px 16px grey;
+#login {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+	border: 5px solid #ffff00;
+	border-radius: 10;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	text-align: center;
+	height: 30vh;
+	width: 30vh;
+	background-color: #a7abac;
+	box-shadow: 0 18px 16px grey;
 }
 
-.middle{
-    margin-left: 10%;
+#login hi {
+	font-family: Arial, sans-serif;
 }
 
-#chat{
-    display: none;
+.middle {
+	margin-left: 10%;
 }
 
-#border{
-    border-radius: 25px;
-    border: 2px solid #73AD21;
-    margin: 20px;
+#chat-area {
+	display: none;
 }
 
-#chat-box{
-    border: 10px solid #000;
-    bottom: 0;
-    height: 60px;
-    left: 0;
-    outline: none;
-    margin: 10px;
-    position: absolute;
-    right: 0;
-    width: 95%;
-    font-size: 30px;
+#ui-buttons {
+	display: flex;
+	flex-direction: column;
+	float: left;
+	margin: 1% 1% 0% 1%;
 }
 
-#connecting-message{
-    display: none;
-    background-color: lightblue;
-    height: 20vh;
-    width: 40vh;
-    position: absolute;
-    left: 40%;
-    top: 30%;
-    border-radius: 10%;
-    transition: 5s;
-    
+#gui-settings,
+#srccode-icon {
+	margin: 10px;
+	max-width: 20px;
 }
 
-#total-online{
-    text-align: right;
-    background-color: rgb(124, 255, 124);
-    font-size: 25px;
-    position:absolute;
-    top:0;
-    right:0;
-    height: 5vh;
-    width: 25vh;
-    -webkit-clip-path: polygon(0 0, 0 100%, 100% 100%, 100% 25%, 75% 0);
-    clip-path: polygon(0 0, 0 25%, 40% 100%, 100% 100%, 100% 0);
+#gui-settings:hover,
+#srccode-icon:hover {
+	transform: scale(100px);
+	cursor: pointer;
+}
+#gui-settings:hover {
+	transform: rotate(90deg);
+	transition: 1s;
 }
 
-#message-container{
-    margin: 10px;
+#settings-menu {
+	width: 40vh;
+	position: absolute;
+	left: 40%;
+	top: 30%;
+	background-color: rgb(255, 133, 111);
+	display: none;
 }
 
-.system_message{
-    font-size: large;
-    margin: 0.5px;
-    background-color: #EBEBE4;
+#status-changer {
+	text-align: center;
+	padding: 1em;
 }
 
-#messages{
-    font-size: larger;
-    margin: 0.5px;
+#status-changer div {
+	flex-direction: column;
+	text-align: center;
+	padding: 01em 0em 0.5em 0em;
 }
 
-.adjacent{
-    font-size: 30px;
-    font-family: sans-serif;
-    font-style: normal;
-    margin-left: 10%;
-    padding-left: 20%;
+#status-changer div :hover {
+	background-color: darkgrey;
 }
 
-.leftspace{
-    margin-left: 25%;
-    font-weight: bold;
+#status-flexbox-container {
+	display: flex;
 }
 
-.loading{
-    margin: 10px;
-    float: left;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 5px solid oldlace;
-    border-top-color: red;
-    animation: around-and-round-you-turn-me 1s infinite;
+#danger-zone {
+	border-style: dotted;
+	border-color: red;
+	width: 100%;
 }
 
-@keyframes around-and-round-you-turn-me{
-    100%{
-        transform: rotate(360deg);
-    }
+#danger-zone #danger-text {
+	color: red;
+	text-align: center;
+}
+
+#prompt-button-yes {
+	background-color: lightgreen;
+	width: 100%;
+	height: 2.5em;
+}
+
+#prompt-button-no {
+	background-color: red;
+	width: 100%;
+	height: 2.5em;
+}
+
+#source-text-container {
+	position: absolute;
+	bottom: 1%;
+	text-align: center;
+	width: 100%;
+}
+
+#source-text-container p a {
+	font-size: 20px;
+	color: hsl(9, 100%, 59%);
+}
+
+.online-list-name {
+	font-size: 30px;
+	color: rgb(255, 255, 255);
+	text-align: center;
+}
+
+#online-list-names {
+	height: 100%;
+	width: 0;
+	position: fixed;
+	z-index: 1;
+	top: 0;
+	right: 0;
+	background-color: rgb(76, 214, 13);
+	overflow-x: hidden;
+	transition: 0.5s;
+	padding-top: 60px;
+}
+
+.border {
+	border-radius: 25px;
+	border: 2px solid #73ad21;
+	margin: 20px;
+}
+
+.message {
+	font-size: 1em;
+}
+
+#chat-box {
+	float: right;
+	width: 90%;
+	border: 10px solid #000;
+	bottom: 0;
+	height: 50px;
+	left: 0;
+	outline: none;
+	margin: 0.8% 2% 0% 0%;
+	font-size: 30px;
+}
+
+#connecting-message {
+	display: none;
+	background-color: lightblue;
+	height: 25vh;
+	width: 40vh;
+	position: absolute;
+	left: 40%;
+	top: 30%;
+	border-radius: 10%;
+	transition: 5s;
+}
+
+#client-prompt {
+	display: none;
+	color: #020202;
+	background-color: #757575;
+	position: absolute;
+	left: 40%;
+	top: 30%;
+}
+
+#client-error {
+	display: none;
+	color: #d8000c;
+	background-color: #ffd2d2;
+	position: absolute;
+	left: 40%;
+	top: 30%;
+}
+
+#client-error h3 {
+	padding: 20px;
+}
+
+#client-error h1 {
+	text-align: center;
+}
+
+#online-list {
+	text-align: right;
+	background-color: rgb(124, 255, 124);
+	font-size: 25px;
+	position: absolute;
+	top: 0;
+	right: 0;
+	height: 5vh;
+	width: 25vh;
+	clip-path: polygon(0 0, 0 25%, 40% 100%, 100% 100%, 100% 0);
+}
+
+#message-container {
+	margin: 10px;
+}
+
+.system-message {
+	font-size: large;
+	margin: 0.5px;
+	background-color: #ebebe4;
+}
+
+.message {
+	font-size: larger;
+	margin: 1px;
+}
+
+.adjacent {
+	font-size: 30px;
+	font-family: sans-serif;
+	font-style: normal;
+	margin-left: 10%;
+	padding-left: 20%;
+}
+
+.leftspace {
+	margin-left: 25%;
+	font-weight: bold;
+}
+
+.loading {
+	margin: 10px;
+	float: left;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border: 5px solid oldlace;
+	border-top-color: red;
+	animation: around-and-round-you-turn-me 1s infinite;
+}
+
+@keyframes around-and-round-you-turn-me {
+	100% {
+		transform: rotate(360deg);
+	}
 }

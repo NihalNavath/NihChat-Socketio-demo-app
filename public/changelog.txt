@@ -1,0 +1,24 @@
+-- NihChat changelog --
+
+
+1.0.1 (11-06-2021)
+A lot of changes - 
+
+> Added online list 
+> Added settings , changelog and source code gui
+> Home page improvements 
+> Added status 
+> Refactored code 
+> Bug fixes
+> Front-end and back-end changes 
+> Added NihChat logo
+> Added clear chat button
+> changed readme.md
+> added logger
+> changed main page look
+> NihChat now remembers username
+> Added admin page 
+> + more changes that i can't remember lol
+
+1.0.0 (Apr 18, 2021): 
+> Initial Release
