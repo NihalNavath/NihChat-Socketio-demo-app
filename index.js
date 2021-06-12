@@ -1,6 +1,7 @@
 const fs = require("./fs");
 const express = require("express");
 const app = express();
+const PORT = process.env.PORT || 3000
 const server = new (require("http").Server)(app);
 const enableUserList = process.env.ENABLE_USER_LIST ? Boolean(process.env.ENABLE_USER_LIST) : true;
 const enableFileHistory = process.env.ENABLE_FILE_HISTORY ? Boolean(process.env.ENABLE_FILE_HISTORY) : false;
@@ -189,6 +190,6 @@ function escape(s) {
 	return s.replace(/[&"<>]/g, (c) => replace[c]);
 }
 
-server.listen(3000, () => {
+server.listen(PORT, () => {
 	console.log("listening on localhost:3000");
 });
