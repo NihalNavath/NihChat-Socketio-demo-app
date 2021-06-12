@@ -3,15 +3,24 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 3000;
 const server = new (require("http").Server)(app);
-const enableUserList = process.env.ENABLE_USER_LIST
-	? Boolean(process.env.ENABLE_USER_LIST)
-	: true;
-const enableFileHistory = process.env.ENABLE_FILE_HISTORY
-	? Boolean(process.env.ENABLE_FILE_HISTORY)
-	: false;
-const enableAdmin = process.env.ENABLE_ADMIN
-	? Boolean(process.env.ENABLE_ADMIN)
-	: true;
+const enableUserList =
+	process.env.ENABLE_USER_LIST !== undefined
+		? process.env.ENABLE_USER_LIST == 1
+			? true
+			: false
+		: true;
+const enableFileHistory =
+	process.env.ENABLE_FILE_HISTORY !== undefined
+		? process.env.ENABLE_FILE_HISTORY == 1
+			? true
+			: false
+		: false;
+const enableAdmin =
+	process.env.ENABLE_ADMIN !== undefined
+		? process.env.ENABLE_ADMIN == 1
+			? true
+			: false
+		: true;
 const { instrument } = require("@socket.io/admin-ui");
 const { Server } = require("socket.io");
 let io;
@@ -198,5 +207,5 @@ function escape(s) {
 }
 
 server.listen(PORT, () => {
-	console.log("listening on localhost:3000");
+	console.log(`listening on localhost:${PORT}`);
 });
