@@ -2,20 +2,32 @@ const fs = require("./fs");
 const express = require("express");
 const app = express();
 const server = new (require("http").Server)(app);
+const enableUserList = process.env.ENABLE_USER_LIST ? Boolean(process.env.ENABLE_USER_LIST) : true;
+const enableFileHistory = process.env.ENABLE_FILE_HISTORY ? Boolean(process.env.ENABLE_FILE_HISTORY) : false;
+const enableAdmin = process.env.ENABLE_ADMIN ? Boolean(process.env.ENABLE_ADMIN) : true;
 const { instrument } = require("@socket.io/admin-ui");
 const { Server } = require("socket.io");
-const io = new Server(server, {
-	cors: {
-		origin: ["https://admin.socket.io"],
-		credentials: true,
-	},
-});
+let io;
+if (enableAdmin) {
+	io = new Server(server, {
+		cors: {
+			origin: ["https://admin.socket.io"],
+			credentials: true,
+		},
+	});
+	instrument(io, {
+		auth: {
+			type: "basic",
+			username: "admin",
+			password: "$2b$10$Zz.omeTSQe4UGTfGBFSI2OIELWQW/moeOiEjeGZfUsFBGlBvg3UDG" // If you want to access admin, change this password or delete it!
+		},
+	});
+} else {
+	io = new Server(server);
+}
 
 const path = require("path");
 const users = new Map();
-const enableUserList = true;
-const enableFileHistory = false;
-const enableAdmin = true;
 if (enableFileHistory) {
 	fs.readFromEnd("file.log", 50).then((data) => {
 		console.log(data);
@@ -25,11 +37,6 @@ if (enableFileHistory) {
 	});
 }
 const history = [];
-if (enableAdmin) {
-	instrument(io, {
-		auth: false,
-	});
-}
 app.use(express.static(path.join(__dirname, "public")));
 
 io.use((socket, next) => {
