@@ -39,10 +39,10 @@ Features - <br>
 
 ## Screenshots
 
-![Chat page](./imgs/NihChat.png)
-![Disconnection message](./imgs/NihChat-DC-mes.gif)
-![Login page](./imgs/NihChat-login.png)
-![Online list](./imgs/online-list.png)
+![Chat page](./imgs/git-images/NihChat.png)
+![Disconnection message](./imgs/git-images/NihChat-DC-mes.gif)
+![Login page](./imgs/git-images/NihChat-login.png)
+![Online list](./imgs/git-images/online-list.png)
 
 ## Contributing
 
