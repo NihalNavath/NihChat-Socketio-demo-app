@@ -373,7 +373,7 @@ function prompt(title, text, yesAction, noAction) {
 		promptButtonYes.removeEventListener("click", yesActionEvent);
 		promptButtonNo.removeEventListener("click", noActionEvent);
 		promptDiv.style.display = "none";
-	}
+	};
 	promptButtonYes.addEventListener("click", yesActionEvent);
 	promptButtonNo.addEventListener("click", noActionEvent);
-} // will show | hmm k :shrug:
+}

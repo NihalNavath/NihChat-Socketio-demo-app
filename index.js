@@ -1,11 +1,17 @@
 const fs = require("./fs");
 const express = require("express");
 const app = express();
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3000;
 const server = new (require("http").Server)(app);
-const enableUserList = process.env.ENABLE_USER_LIST ? Boolean(process.env.ENABLE_USER_LIST) : true;
-const enableFileHistory = process.env.ENABLE_FILE_HISTORY ? Boolean(process.env.ENABLE_FILE_HISTORY) : false;
-const enableAdmin = process.env.ENABLE_ADMIN ? Boolean(process.env.ENABLE_ADMIN) : true;
+const enableUserList = process.env.ENABLE_USER_LIST
+	? Boolean(process.env.ENABLE_USER_LIST)
+	: true;
+const enableFileHistory = process.env.ENABLE_FILE_HISTORY
+	? Boolean(process.env.ENABLE_FILE_HISTORY)
+	: false;
+const enableAdmin = process.env.ENABLE_ADMIN
+	? Boolean(process.env.ENABLE_ADMIN)
+	: true;
 const { instrument } = require("@socket.io/admin-ui");
 const { Server } = require("socket.io");
 let io;
@@ -20,7 +26,8 @@ if (enableAdmin) {
 		auth: {
 			type: "basic",
 			username: "admin",
-			password: "$2b$10$Zz.omeTSQe4UGTfGBFSI2OIELWQW/moeOiEjeGZfUsFBGlBvg3UDG" // If you want to access admin, change this password or delete it!
+			password:
+				"$2b$10$Zz.omeTSQe4UGTfGBFSI2OIELWQW/moeOiEjeGZfUsFBGlBvg3UDG", // If you want to access admin, change this password or delete it!
 		},
 	});
 } else {
