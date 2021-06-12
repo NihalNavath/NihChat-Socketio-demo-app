@@ -12,20 +12,17 @@
 		<div id="login">
 			<h1>NIHCHAT</h1>
 			<div id="error"></div>
-			<input
-				id="name"
-				type="text"
-				name="name"
-				placeholder="Enter your username!">
-            </input>
+			<input id="name" type="text" name="name" placeholder="Enter your username!">
+			</input>
 			<button type="button" name="button" onclick="connect()">
 				Chat!
 			</button>
-		<div id="source-text-container">
-			<p>An <a href="https://github.com/SegsyNihal/NihChat-Socketio-demo-app" target="_blank"> Open source project</a>
-				2021</p>
-			<p> <a href="changelog.txt" target="_blank"> ChangeLog </a> </p>
-		</div>
+			<div id="source-text-container">
+				<p>An <a href="https://github.com/SegsyNihal/NihChat-Socketio-demo-app" target="_blank"> Open source
+						project</a>
+					2021</p>
+				<p> <a href="changelog.txt" target="_blank"> ChangeLog </a> </p>
+			</div>
 		</div>
 		<div id="chat-area">
 			<div id="online-list"></div>
@@ -35,41 +32,34 @@
 					Currently Online
 				</h2>
 				<div id="online-list-names2">
-					
+
 				</div>
 			</div>
-			<div
-				id="message-container-border"
-				class="border"
-				style="overflow-y: scroll; height: 800px"
-			>
+			<div id="message-container-border" class="border" style="overflow-y: scroll; height: 800px">
 				<div id="message-container"></div>
 			</div>
-        	<div id = "type-area">
-			<div id = "ui-buttons"> 
-            	<img id="gui-settings" src="/imgs/gui/settings.png" title="Settings">
-				<img id="srccode-icon" src="/imgs/icons/srccodeicon.png" title="See the source code!" onclick="sourceCodeOpen()">
-			</div>
-            <div id="settings-menu">
-				<div id="status-changer">
-					<h3>Change status to:</h3> 
-					<div id = "status-flexbox-container">
-						<div id="status-online">🟢 Online </div>
-						<div id="status-away">🟡 Away </div>
-						<div id="status-dnd">🔴 Do Not Disturb </div>
+			<div id="type-area">
+				<div id="ui-buttons">
+					<img id="gui-settings" src="/imgs/gui/settings.png" title="Settings">
+					<img id="srccode-icon" src="/imgs/icons/srccodeicon.png" title="See the source code!"
+						onclick="sourceCodeOpen()">
+				</div>
+				<div id="settings-menu">
+					<div id="status-changer">
+						<h3>Change status to:</h3>
+						<div id="status-flexbox-container">
+							<div id="status-online">🟢 Online </div>
+							<div id="status-away">🟡 Away </div>
+							<div id="status-dnd">🔴 Do Not Disturb </div>
+						</div>
+					</div>
+					<div id="danger-zone">
+						<p id="danger-text">Danger Zone:</p>
+						<button id="clear-messages">Clear Chat</button>
 					</div>
 				</div>
-				<div id="danger-zone">
-					<p id = "danger-text">Danger Zone:</p>
-					<button id="clear-messages">Clear Chat</button>
-				</div>
-            </div>
-			<input
-				type="text"
-				id="chat-box"
-				placeholder="Enter your message here..."
-			/>
-        	</div>
+				<input type="text" id="chat-box" placeholder="Enter your message here..." />
+			</div>
 		</div>
 		<div id="client-error">
 			<h1>Error!</h1>
@@ -77,7 +67,7 @@
 			<button id="hide-error">Ok! 👀</button>
 		</div>
 		<div id="client-prompt">
-			<h1 id = "prompt-title">Error displaying title</h1>
+			<h1 id="prompt-title">Error displaying title</h1>
 			<h3 id="prompt-text">Hmm a prompt shoud be displayed here. Try reloading.</h3>
 			<button id="prompt-button-yes">Yes!</button>
 			<button id="prompt-button-no">No!</button>
