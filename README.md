@@ -1,3 +1,7 @@
+# Live
+
+See the app running here - http://nihchat.nihalnavath.com/
+
 # About
 
 Source code for NihChat
@@ -18,6 +22,11 @@ then run this in the cloned directory to install the dependencies
 
 ```bash
 $ npm install
+```
+
+then run the following command to run NihChat
+```bash
+$ node .
 ```
 
 ---
