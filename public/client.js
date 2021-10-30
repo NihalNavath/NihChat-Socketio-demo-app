@@ -3,18 +3,14 @@ const chatDiv = document.getElementById("chat-area");
 const clientErrorDiv = document.getElementById("client-error");
 const clientErrorText = document.getElementById("error-contents");
 const clientHideButton = document.getElementById("hide-error");
-const usernameField = document.getElementById("name");
 const onlineList = document.getElementById("online-list");
 const onlineUsersPanel = document.getElementById("online-list-names");
 const onlineUsersPanel2 = document.getElementById("online-list-names2");
 const messageContainer = document.getElementById("message-container");
 const chatField = document.getElementById("chat-box");
-const settingsCog = document.getElementById("gui-settings");
 const settingsPanel = document.getElementById("settings-menu");
-const errorDiv = document.getElementById("error");
 const srcDiv = document.getElementById("source-text-container");
 const totalOnline = document.getElementById("online-list");
-const loginDiv = document.getElementById("login");
 const onlineButton = document.getElementById("status-online");
 const awayButton = document.getElementById("status-away");
 const dndButton = document.getElementById("status-dnd");
@@ -34,13 +30,15 @@ const promptButtonNo = document.getElementById("prompt-button-no");
 const enableUserList = true;
 let firstConnect = true;
 let pinned = false;
-let settingsGuiOpened = false;
+let userAwayFromChat = false;
+let userAwayNotified = false;
+let unreadMessages = 0;
+
+let file;
+
+
 
 //Local storage
-const lsUsername = localStorage.getItem("username");
-if (lsUsername) {
-	usernameField.value = lsUsername;
-}
 const lsStatus = localStorage.getItem("status");
 
 const statusesDivName = {
@@ -50,13 +48,17 @@ const statusesDivName = {
 };
 
 // Connection related
+connect()
+
 function connect() {
 	if (!firstConnect) {
 		return;
 	}
 	let stop = false;
-	const username = usernameField.value;
-	localStorage.setItem("username", username);
+	const username = readCookie("socket_username")
+	if (!username){
+		location.href = "/"
+	}
 	socket = io({
 		auth: {
 			username: username,
@@ -85,6 +87,12 @@ function connect() {
 				return;
 			}
 		}
+		messageContainerBorder.scrollTop =
+			messageContainerBorder.scrollHeight -
+			messageContainerBorder.clientHeight;
+	});
+	socket.on("newFile", function (data) {
+		sendImage(data);
 		messageContainerBorder.scrollTop =
 			messageContainerBorder.scrollHeight -
 			messageContainerBorder.clientHeight;
@@ -149,11 +157,7 @@ function connect() {
 				color: "blue",
 			});
 		} else {
-			loginDiv.style.display = "none";
-			chatDiv.style.display = "block";
-			document.body.style.backgroundColor = "white";
 			firstConnect = false;
-			srcDiv.style.display = "none";
 			const currentStatusDiv = document.getElementById(
 				statusesDivName[status]
 			);
@@ -204,14 +208,22 @@ function connect() {
 			});
 			chatField.addEventListener("keyup", function (e) {
 				const message = chatField.value;
-				if (e.key == "Enter" && message.trim() != "") {
+				if (e.key == "Enter" && file){
+					sendFile(file);
+					return;
+				}
+				else if (e.key == "Enter" && message.trim() != "" && !e.shiftKey) {
 					if (message.trim().length > 500) {
-						showError(
+						return showError(
 							"Message is too long! It can't exceed 500 characters in length"
 						);
-						return;
 					}
-					sendMessage(socket, message.trim());
+					if (message.split(/\r|\r\n|\n/).length > 10){
+						return showError(
+							"Too many white spaces! This looks like spam. Try to reduce the new line count."
+						);
+					}
+					sendMessage(socket, message);
 					chatField.value = "";
 				}
 			});
@@ -219,25 +231,16 @@ function connect() {
 	});
 
 	socket.on("connect_error", (error) => {
+		
 		if (stop || socket.reconnecting) {
 			return;
 		}
 		if (error.data?.usernameRelated) {
-			if (!firstConnect) {
-				alert(error.message + " Reloading!");
-				return location.reload();
-			}
-			const text = error.message.fontcolor("red");
-			errorDiv.style.fontSize = "20px";
-			if (errorDiv.innerHTML) {
-				errorDiv.textContent = "";
-			}
-			errorDiv.innerHTML = text;
-			errorDiv.style.backgroundColor = "lightblue";
-			stop = true;
+			alert(error.message + " Reloading!");
+			return returnToHome()
 		} else {
 			alert(`Error detected! ${error}`);
-			return location.reload();
+			return returnToHome()
 		}
 	});
 
@@ -284,14 +287,48 @@ function hidePanel() {
 function pin() {
 	pinbutton.innerHTML = (pinned = !pinned)
 		? (pinbutton.innerHTML = "📍")
-		: (pinbutton.innerHTML = "📌");
+		: (pinbutton.innerHsTML = "📌");
 }
+
+function selectFile(event){
+	if (event.target.files[0].size >= 5000000){
+		showError("File is too op! File can't exceed 5 mb in size.")
+		return 
+	}
+
+	showFilePreview(event.target.files[0])
+}
+
 // Message related
 function sendMessage(socket, message) {
 	socket.emit("newMessage", message);
 }
 
+function sendFile(file){
+	file = {
+		"file": file,
+		"name": file.name,
+		"mimeType": file.type,
+		"size": file.size
+	}
+	socket.emit("sendFile", file);
+	file = null;
+}
+
 function systemMessage(data) {
+	if (userAwayFromChat ){
+		unreadMessages += 1
+		updateTitle()
+
+		if (!userAwayNotified){ 
+		userAwayNotified = true
+		const awayDiv = document.createElement("div");
+		awayDiv.className = "unread-separator"
+		awayDiv.setAttribute("aria-label", "unread")
+		messageContainer.appendChild(awayDiv);
+		}
+	}
+
 	const p = document.createElement("p");
 	p.className = "system-message";
 	p.innerHTML = data.text;
@@ -300,6 +337,18 @@ function systemMessage(data) {
 }
 
 function normalMessage(data) {
+	if (userAwayFromChat ){
+		unreadMessages += 1
+		updateTitle()
+
+		if (!userAwayNotified){ 
+		userAwayNotified = true
+		const awayDiv = document.createElement("div");
+		awayDiv.className = "unread-separator"
+		awayDiv.setAttribute("aria-label", "unread")
+		messageContainer.appendChild(awayDiv);
+		}
+	}
 	const p = document.createElement("p");
 	const timestamp = new Date(data.timestamp);
 	p.className = "message";
@@ -309,16 +358,46 @@ function normalMessage(data) {
 	messageContainer.appendChild(p);
 }
 
+//IMAGE
+function sendImage(data) {
+	const container = document.createElement("div");
+	container.className = "image-container"
+	const p = document.createElement("p");
+	const timestamp = new Date(data.timestamp);
+	p.className = "message";
+	p.innerHTML = `<b title="${timestamp.getHours()}:${timestamp.getMinutes()}:${timestamp.getSeconds()}">${
+		data.username
+	}</b>: ${data.message}`;
+
+	const img = document.createElement("img");
+	
+	img.className = "img";
+	
+	const blob = new Blob([file])
+	const url = URL.createObjectURL(blob);
+
+	img.src = url;
+
+	container.appendChild(p);
+	container.appendChild(img);
+	messageContainer.appendChild(container);
+}
+
+function showFilePreview(file){
+	const blob = new Blob([file])
+	const url = URL.createObjectURL(blob);
+
+	document.getElementById("file-preview-container").setAttribute("src", url)
+}
+
 function clearMessages() {
 	messageContainer.innerHTML = "";
 }
 // Utilities
+document.addEventListener("visibilitychange", newMessageInfo);
 totalOnline.addEventListener("mouseover", showPanel);
 onlineUsersPanel.addEventListener("mouseleave", hidePanel);
-settingsCog.addEventListener("click", showSettings);
-clientHideButton.addEventListener("click", () => {
-	clientErrorDiv.style.display = "none";
-});
+
 clearChatButton.addEventListener("click", () => {
 	prompt(
 		"Are You Sure?",
@@ -332,22 +411,37 @@ clearChatButton.addEventListener("click", () => {
 		}
 	);
 });
-function sourceCodeOpen() {
-	window.open(
-		"https://github.com/SegsyNihal/NihChat-Socketio-demo-app",
-		"_blank"
-	);
+
+function updateTitle(){
+	document.title = `(${unreadMessages}) NihChat`
+}
+
+function newMessageInfo(){
+	switch(document.visibilityState) {
+		case "hidden":
+		  	userAwayFromChat = true;
+			break;
+		case "visible":
+			userAwayFromChat = false;
+			userAwayNotified = false;
+			unreadMessages = 0;
+			document.title = "NihChat";
+			break;
+	  }
+}
+
+function returnToHome(){
+	location.href = "/"
 }
 
 function showSettings() {
-	if (!settingsGuiOpened) {
-		settingsPanel.style.display = "block";
-		settingsGuiOpened = true;
-	} else {
-		settingsPanel.style.display = "none";
-		settingsGuiOpened = false;
-	}
+	settingsPanel.style.display = "block";
 }
+
+function readCookie(name) {
+	let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)")
+	return result ? result.pop() : ""
+  }
 
 function showError(error) {
 	clientErrorText.innerText = error;

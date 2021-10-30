@@ -1,5 +1,39 @@
 -- NihChat changelog --
 
+2.0 (30-10-2021)
+New major version:- 2.0
+
+> Completely reworked UI
+> Website is now responsive
+> Added ability to send images 
+> You can send messages containing many paragraphs, NihChat will respect white spaces
+> Login page and app are now separate
+> Unread message notification in title
+> Login page no longer uses sockets  
+> Fixed viewport
+> Bug fixes
+> Online list hidden for now on mobile devices
+> Added threads(Still not completed)
+
+> New logo 
+> NihChat has a better login page 
+> Added an easter egg 👀
+
+>I know the chat page is not fully responsive, it will soon be fixed.
+
+Stuff coming very soon:-
+    > Image support 
+    > Draggable online list 
+    > UserInfo menu
+    > username will be centered if newlines occur
+    > Fully responsive chat page
+
+    later:-
+    > ability to highlight code 
+    > markup support 
+    > Threads
+
+All hail NihChat, lol. 
 
 1.0.1 (11-06-2021)
 A lot of changes - 
@@ -18,7 +52,7 @@ A lot of changes -
 > changed main page look
 > NihChat now remembers username
 > Added admin page 
-> + more changes that i can't remember lol
+> + more changes that I can't remember lol
 
 1.0.0 (Apr 18, 2021): 
 > Initial Release
