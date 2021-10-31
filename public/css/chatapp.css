@@ -51,6 +51,9 @@ body, html{
     height: 80vh;
     width: 100%;
     box-sizing: border-box;
+
+    overflow-x: hidden;
+    word-wrap: break-word;
 }
 
 #chat-box{
