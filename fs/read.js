@@ -100,7 +100,9 @@ async function readFromEnd(input, maxLineCount) {
 			})
 			.catch((err) => {
 				if (self.file !== null) {
-					self.file.close().catch(() => {});
+					self.file.close().catch(() => {
+						return;
+					});
 				}
 				return reject(err);
 			});

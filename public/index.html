@@ -1,65 +1,87 @@
 <!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>NihChat</title>
+		<link rel="stylesheet" href="/css/helper.css" />
+		<link rel="stylesheet" href="/css/login.css" />
 
-	<title>NihChat</title>
-	<link rel="stylesheet" href="/css/helper.css">
-	<link rel="stylesheet" href="/css/login.css">
+		<script src="../socket.io/socket.io.js"></script>
 
-	<script src="../socket.io/socket.io.js"></script>
+		<!-- HTML Meta Tags -->
+		<title>NihChat</title>
+		<link rel="shortcut icon" href="imgs/logo.png" type="image/x-icon" />
+		<meta
+			name="description"
+			content="An online chat to chill and chat with strangers"
+		/>
 
-	<!-- HTML Meta Tags -->
-	<title>NihChat</title>
-	<link rel="shortcut icon" href="imgs/logo.png" type="image/x-icon">
-	<meta name="description" content="An online chat to chill and chat with strangers">
+		<!-- Google / Search Engine Tags -->
+		<meta itemprop="name" content="NihChat" />
+		<meta
+			itemprop="description"
+			content="An online chat to chill and chat with strangers"
+		/>
+		<meta itemprop="image" content="" />
 
-	<!-- Google / Search Engine Tags -->
-	<meta itemprop="name" content="NihChat">
-	<meta itemprop="description" content="An online chat to chill and chat with strangers">
-	<meta itemprop="image" content="">
+		<!-- Facebook Meta Tags -->
+		<meta property="og:url" content="https://nihchat.nihalnavath.com" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="NihChat" />
+		<meta
+			property="og:description"
+			content="An online chat to chill and chat with strangers"
+		/>
+		<meta property="og:image" content="" />
 
-	<!-- Facebook Meta Tags -->
-	<meta property="og:url" content="https://nihchat.nihalnavath.com">
-	<meta property="og:type" content="website">
-	<meta property="og:title" content="NihChat">
-	<meta property="og:description" content="An online chat to chill and chat with strangers">
-	<meta property="og:image" content="">
+		<!-- Twitter Meta Tags -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content="NihChat" />
+		<meta
+			name="twitter:description"
+			content="An online chat to chill and chat with strangers"
+		/>
+		<meta name="twitter:image" content="" />
+	</head>
 
-	<!-- Twitter Meta Tags -->
-	<meta name="twitter:card" content="summary_large_image">
-	<meta name="twitter:title" content="NihChat">
-	<meta name="twitter:description" content="An online chat to chill and chat with strangers">
-	<meta name="twitter:image" content="">
-</head>
-
-<body>
-	<div class="login-container">
+	<body>
+		<div class="login-container">
 			<div id="login">
-
 				<div>
 					<h1>NIHCHAT</h1>
-					<hr>
+					<hr />
 				</div>
 
-				<div> 
+				<div>
 					<div id="error"></div>
-					<input id="name" type="text" name="name" placeholder="Enter your username!">
-					</input>
+					<input
+						id="name"
+						type="text"
+						name="name"
+						placeholder="Enter your username!"
+					/>
 					<button type="button" name="button" onclick="connect()">
 						Chat!
 					</button>
 				</div>
 
 				<div id="source-text-container">
-					<hr>
-					<p>An <a href="/source" target="blank"> Open source
-							project</a>
-						2021</p>
-					<p> <a href="changelog.txt" target="_blank"> ChangeLog </a> </p>
+					<hr />
+					<p>
+						An
+						<a href="/source" target="blank">
+							Open source project
+						</a>
+						2021
+					</p>
+					<p>
+						<a href="changelog.txt" target="_blank"> ChangeLog </a>
+					</p>
 				</div>
 			</div>
 		</div>
-	</div>
-	<script src="loginhandler.js"></script>
-</body>
+		<script src="loginhandler.js"></script>
+	</body>
+</html>

@@ -27,6 +27,7 @@ $ npm install
 ```
 
 then run the following command to run NihChat
+
 ```bash
 $ node .
 ```
