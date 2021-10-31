@@ -46,10 +46,6 @@ html {
 	padding: 10px;
 	overflow-y: scroll;
 	overflow-wrap: break-word;
-	-webkit-hyphens: manual;
-	-ms-hyphens: manual;
-	hyphens: manual;
-	white-space: pre-line;
 	height: 80vh;
 	width: 100%;
 	box-sizing: border-box;
@@ -58,7 +54,6 @@ html {
 #chat-box {
 	border: 5px solid;
 	width: 100%;
-
 	font-size: 1rem;
 }
 
@@ -75,7 +70,6 @@ html {
 
 .file-send {
 	width: 5rem;
-	display: none;
 }
 
 .ui-buttons {
@@ -96,7 +90,6 @@ html {
 	left: 40%;
 	top: 30%;
 	background-color: rgb(255, 133, 111);
-
 	border-radius: 3%;
 }
 
@@ -127,8 +120,6 @@ html {
 .message {
 	font-size: larger;
 	margin: 2px;
-	white-space: pre-line;
-	width: 100%;
 }
 
 .system-message {
@@ -139,14 +130,12 @@ html {
 	background-color: black;
 	width: 100%;
 	height: 1px;
-
-	margin: 10px 0px 10px 0px;
+	margin: 10px 0px 30px 0px;
 }
 
 .unread-separator::before {
 	content: "NEW MESSAGES";
 	color: gray;
-
 	justify-content: center;
 	display: flex;
 }
@@ -162,6 +151,18 @@ html {
 	background-color: red;
 	width: 100%;
 	height: 2.5em;
+}
+
+#connecting-message {
+	display: none;
+	background-color: lightblue;
+	height: 25vh;
+	width: 40vh;
+	position: absolute;
+	left: 40%;
+	top: 30%;
+	border-radius: 10%;
+	transition: 5s;
 }
 
 #client-prompt {
@@ -230,6 +231,23 @@ html {
 	width: 250px;
 }
 
-#online-list-names.pinned {
-	z-index: auto;
+/* #online-list-names.pinned {
+
+} */
+
+.loading {
+	margin: 10px;
+	float: left;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border: 5px solid oldlace;
+	border-top-color: red;
+	animation: around-and-round-you-turn-me 1s infinite;
+}
+
+@keyframes around-and-round-you-turn-me {
+	100% {
+		transform: rotate(360deg);
+	}
 }

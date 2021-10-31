@@ -16,9 +16,7 @@ const onlineButton = document.getElementById("status-online");
 const awayButton = document.getElementById("status-away");
 const dndButton = document.getElementById("status-dnd");
 const connectingDiv = document.getElementById("connecting-message");
-const messageContainerBorder = document.getElementById(
-	"message-container-border"
-);
+const messageContainerBorder = document.getElementById("message-container-border");
 const attempts = document.getElementById("attempt-number");
 const pinButton = document.getElementById("pinbutton");
 const clearChatButton = document.getElementById("clear-messages");
@@ -79,22 +77,18 @@ function connect() {
 				break;
 			}
 			default: {
-				alert(
-					"Received unknown message! Is app out of date? Reloading!"
-				);
+				alert("Received unknown message! Is app out of date? Reloading!");
 				location.reload();
 				return;
 			}
 		}
 		messageContainerBorder.scrollTop =
-			messageContainerBorder.scrollHeight -
-			messageContainerBorder.clientHeight;
+			messageContainerBorder.scrollHeight - messageContainerBorder.clientHeight;
 	});
 	socket.on("newFile", (data) => {
 		sendImage(data);
 		messageContainerBorder.scrollTop =
-			messageContainerBorder.scrollHeight -
-			messageContainerBorder.clientHeight;
+			messageContainerBorder.scrollHeight - messageContainerBorder.clientHeight;
 	});
 
 	socket.on("history", (historyEntries) => {
@@ -109,9 +103,7 @@ function connect() {
 					break;
 				}
 				default: {
-					alert(
-						"Received unknown message! Is app out of date? Reloading!"
-					);
+					alert("Received unknown message! Is app out of date? Reloading!");
 					location.reload();
 					return;
 				}
@@ -158,22 +150,16 @@ function connect() {
 		} else {
 			firstConnect = false;
 			{
-				const currentStatusDiv = document.getElementById(
-					statusesDivName[status]
-				);
+				const currentStatusDiv = document.getElementById(statusesDivName[status]);
 				currentStatusDiv.style.backgroundColor = "grey";
 			}
 			const handler = (e) => {
 				const num = parseInt(e.target.dataset.status);
 				socket.emit("status", num);
 				localStorage.setItem("status", num);
-				const lastStatusDiv = document.getElementById(
-					statusesDivName[status]
-				);
+				const lastStatusDiv = document.getElementById(statusesDivName[status]);
 				lastStatusDiv.style.backgroundColor = "";
-				const currentStatusDiv = document.getElementById(
-					statusesDivName[num]
-				);
+				const currentStatusDiv = document.getElementById(statusesDivName[num]);
 				currentStatusDiv.style.backgroundColor = "grey";
 				status = num;
 			};
@@ -181,6 +167,7 @@ function connect() {
 				v.addEventListener("click", handler)
 			);
 			chatField.addEventListener("keydown", function (e) {
+				document.querySelectorAll(".unread-separator").forEach((v) => v.remove());
 				const message = chatField.value.trim();
 				if (e.key === "Enter") {
 					if (file) {
@@ -246,9 +233,7 @@ function updateUsers(num, users) {
 	}
 }
 function updateList(users) {
-	onlineUsersPanel2.innerHTML = users
-		.map((v) => `<p class="online-list-name">${v}</p>`)
-		.join("");
+	onlineUsersPanel2.innerHTML = users.map((v) => `<p class="online-list-name">${v}</p>`).join("");
 }
 
 function showPanel() {
@@ -420,9 +405,7 @@ function showSettings() {
 }
 
 function readCookie(name) {
-	let result = document.cookie.match(
-		"(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)"
-	);
+	let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)");
 	return result ? result.pop() : "";
 }
 

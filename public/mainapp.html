@@ -17,11 +17,7 @@
 	<body>
 		<div class="text-center selector-row">
 			<div class="server">
-				<img
-					alt="Global Chat Button"
-					class="clickable"
-					src="imgs/globalchat.png"
-				/>
+				<img alt="Global Chat Button" class="clickable" src="imgs/globalchat.png" />
 				<img
 					alt="Threads Button"
 					class="forbidden"
@@ -50,16 +46,12 @@
 					<div id="status-flexbox-container">
 						<div id="status-online" data-status="0">🟢 Online</div>
 						<div id="status-away" data-status="1">🟡 Away</div>
-						<div id="status-dnd" data-status="2">
-							🔴 Do Not Disturb
-						</div>
+						<div id="status-dnd" data-status="2">🔴 Do Not Disturb</div>
 					</div>
 				</div>
 				<div id="danger-zone">
 					<p id="danger-text">Danger Zone:</p>
-					<button id="clear-messages" class="danger" type="button">
-						Clear Chat
-					</button>
+					<button id="clear-messages" class="danger" type="button">Clear Chat</button>
 				</div>
 			</div>
 			<!-- remove? -->
@@ -90,12 +82,11 @@
 					title="Upload file"
 					type="button"
 				>
-					<label id="file-input-label" class="hidden"
-						>Upload file</label
-					>
+					<label id="file-input-label" class="hidden">Upload file</label>
 					<input
 						type="file"
 						id="file-input"
+						class="hidden"
 						aria-labelledby="file-input-label"
 					/>
 					<svg width="24" height="24" viewBox="0 0 24 24">
@@ -117,17 +108,11 @@
 				<h3 class="errortext" id="error-contents">
 					Hmm a error should be displayed here. Try reloading.
 				</h3>
-				<button onclick="closeMenu(this)" id="hide-error" type="button">
-					Ok! 👀
-				</button>
+				<button onclick="closeMenu(this)" id="hide-error" type="button">Ok! 👀</button>
 			</div>
 			<div id="client-prompt" class="hidden">
-				<h1 id="prompt-title" class="text-center">
-					Error displaying title
-				</h1>
-				<h3 id="prompt-text">
-					Hmm a prompt should be displayed here. Try reloading.
-				</h3>
+				<h1 id="prompt-title" class="text-center">Error displaying title</h1>
+				<h3 id="prompt-text">Hmm a prompt should be displayed here. Try reloading.</h3>
 				<button id="prompt-button-yes" type="button">Yes!</button>
 				<button id="prompt-button-no" type="button">No!</button>
 			</div>

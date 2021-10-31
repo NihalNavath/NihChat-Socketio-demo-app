@@ -3,13 +3,9 @@ const express = require("express");
 const PORT = process.env.PORT || 3000;
 const { Server } = require("socket.io");
 const enableUserList =
-	process.env.ENABLE_USER_LIST !== undefined
-		? !!process.env.ENABLE_USER_LIST
-		: true;
+	process.env.ENABLE_USER_LIST !== undefined ? !!process.env.ENABLE_USER_LIST : true;
 const enableFileHistory =
-	process.env.ENABLE_FILE_HISTORY !== undefined
-		? !!process.env.ENABLE_FILE_HISTORY
-		: false;
+	process.env.ENABLE_FILE_HISTORY !== undefined ? !!process.env.ENABLE_FILE_HISTORY : false;
 
 const app = express();
 const server = new (require("http").Server)(app);
@@ -29,9 +25,7 @@ if (enableFileHistory) {
 	});
 }
 const history = [];
-app.use(
-	express.static(path.join(__dirname, "public"), { extensions: ["html"] })
-);
+app.use(express.static(path.join(__dirname, "public"), { extensions: ["html"] }));
 
 function checkUserName(username) {
 	if (!username || username === "") {
@@ -83,7 +77,7 @@ io.on("connection", (socket) => {
 		} else {
 			return;
 		}
-		if (!message || typeof message !== "string" || message === "") {
+		if (message === "") {
 			return;
 		}
 		if (message.length > 500) {
@@ -189,7 +183,6 @@ function sendFile(fileData, socket, raw) {
 		return socket.emit("newFile", fileData);
 	}
 	io.sockets.emit("newFile", fileData);
-	console.log(fileData);
 }
 //TEST
 
@@ -242,7 +235,6 @@ app.post("/api/usernamecheck", (req, res) => {
 			error: check.message,
 			usernameRelated: check.data.usernameRelated,
 		};
-		console.log(data);
 		res.json(data);
 	}
 });
