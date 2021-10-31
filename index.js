@@ -78,7 +78,12 @@ io.on("connection", (socket) => {
 		text: `<b>${socket.username}</b> joined the chat!`,
 	});
 	socket.on("newMessage", (message) => {
-		if (!message || message.trim() === "" || typeof message !== "string") {
+		if (message && typeof message === "string") {
+			message = message.trim();
+		} else {
+			return;
+		}
+		if (!message || typeof message !== "string" || message === "") {
 			return;
 		}
 		if (message.length > 500) {

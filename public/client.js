@@ -181,16 +181,16 @@ function connect() {
 				v.addEventListener("click", handler)
 			);
 			chatField.addEventListener("keydown", function (e) {
-				const message = chatField.value;
+				const message = chatField.value.trim();
 				if (e.key === "Enter") {
 					if (file) {
 						sendFile(file);
 					} else {
-						if (e.shiftKey || message.trim() === "") {
+						if (e.shiftKey || message === "") {
 							return;
 						}
 						e.preventDefault();
-						if (message.trim().length > 500) {
+						if (message.length > 500) {
 							return showError(
 								"Message is too long! It can't exceed 500 characters in length"
 							);

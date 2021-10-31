@@ -35,9 +35,7 @@
 			<div class="mob-hidden" id="online-list"></div>
 			<div id="online-list-names">
 				<button onclick="pin()" id="pinbutton" type="button">📌</button>
-				<h2 style="text-align: center" id="online-listh1">
-					Currently Online
-				</h2>
+				<h2 id="online-listh1">Currently Online</h2>
 				<div id="online-list-names2"></div>
 			</div>
 
@@ -92,14 +90,12 @@
 					title="Upload file"
 					type="button"
 				>
-					<!-- onclick="document.getElementById('file-input').click();"> -->
 					<label id="file-input-label" class="hidden"
 						>Upload file</label
 					>
 					<input
 						type="file"
 						id="file-input"
-						style="display: none"
 						aria-labelledby="file-input-label"
 					/>
 					<svg width="24" height="24" viewBox="0 0 24 24">
@@ -121,7 +117,7 @@
 				<h3 class="errortext" id="error-contents">
 					Hmm a error should be displayed here. Try reloading.
 				</h3>
-				<button onclick="closeMenu(this)" id="hide-error">
+				<button onclick="closeMenu(this)" id="hide-error" type="button">
 					Ok! 👀
 				</button>
 			</div>
@@ -132,8 +128,8 @@
 				<h3 id="prompt-text">
 					Hmm a prompt should be displayed here. Try reloading.
 				</h3>
-				<button id="prompt-button-yes">Yes!</button>
-				<button id="prompt-button-no">No!</button>
+				<button id="prompt-button-yes" type="button">Yes!</button>
+				<button id="prompt-button-no" type="button">No!</button>
 			</div>
 			<div id="connecting-message" class="hidden">
 				<h1 class="leftspace">Disconnected</h1>

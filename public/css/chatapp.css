@@ -75,6 +75,7 @@ html {
 
 .file-send {
 	width: 5rem;
+	display: none;
 }
 
 .ui-buttons {
@@ -190,6 +191,10 @@ html {
 }
 
 /* online list */
+#online-listh1 {
+	text-align: center;
+}
+
 #online-list {
 	text-align: right;
 	background-color: rgb(124, 255, 124);
