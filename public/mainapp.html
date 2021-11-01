@@ -1,70 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<link rel="shortcut icon" href="imgs/logo.png" type="image/x-icon" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="imgs/logo.png" type="image/x-icon">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>NihChat</title>
 
-    <title>NihChat</title>
+		<link rel="stylesheet" href="/css/chatapp.css" />
+		<link rel="stylesheet" href="/css/helper.css" />
 
-    <link rel="stylesheet" href="/css/chatapp.css">
-    <link rel="stylesheet" href="/css/helper.css">
+		<script src="../socket.io/socket.io.js"></script>
+	</head>
 
     <link rel="stylesheet" media="screen and (max-width: 1024px)" href="/css/chatmobilerules.css">
 
     <script src="../socket.io/socket.io.js"></script>
 </head>
+	<body>
+		<div class="text-center selector-row">
+			<div class="server">
+				<img alt="Global Chat Button" class="clickable" src="imgs/globalchat.png" />
+				<img
+					alt="Threads Button"
+					class="forbidden"
+					title="coming soon!"
+					src="imgs/thread.png"
+				/>
+			</div>
+		</div>
 
-<body>
-    <div class="text-center selector-row">
-        <div class="server">
-            <img class="clickable" src="imgs/globalchat.png">
-            <img class="forbidden" title="coming soon!" src="imgs/thread.png">
-        </div>
-    </div>
+		<div class="user-interactables-container">
+			<div class="mob-hidden" id="online-list"></div>
+			<div id="online-list-names">
+				<button onclick="pin()" id="pinbutton" type="button">📌</button>
+				<h2 id="online-listh1">Currently Online</h2>
+				<div id="online-list-names2"></div>
+			</div>
 
-    <div class="user-interactables-container">
-        <div class="mob-hidden" id="online-list"></div>
-        <div id="online-list-names">
-            <button onclick="pin()" id="pinbutton">📌</button>
-            <h2 style="text-align: center" id="online-listh1">
-                Currently Online
-            </h2>
-            <div id="online-list-names2">
+			<div id="message-container-border" class="main-chat-border">
+				<div id="message-container"></div>
+			</div>
 
-            </div>
-        </div>
+			<div id="settings-menu" class="hidden">
+				<div onclick="closeMenu(this)" class="hide-btn">×</div>
+				<div id="status-changer">
+					<h3>Change status to:</h3>
+					<div id="status-flexbox-container">
+						<div id="status-online" data-status="0">🟢 Online</div>
+						<div id="status-away" data-status="1">🟡 Away</div>
+						<div id="status-dnd" data-status="2">🔴 Do Not Disturb</div>
+					</div>
+				</div>
+				<div id="danger-zone">
+					<p id="danger-text">Danger Zone:</p>
+					<button id="clear-messages" class="danger" type="button">Clear Chat</button>
+				</div>
+			</div>
+			<!-- remove? -->
 
-        <div id="message-container-border" class="main-chat-border">
-            <div id="message-container"></div>
-        </div>
+			<div class="user-input-container">
+				<div class="ui-buttons">
+					<img
+						alt="Settings image"
+						class="clickable"
+						onclick="showSettings()"
+						id="gui-settings"
+						src="/imgs/gui/settings.png"
+						title="Settings"
+					/>
+					<a href="/source" target="blank">
+						<img
+							alt="Source code image"
+							id="srccode-icon"
+							src="/imgs/icons/srccodeicon.png"
+							title="See the source code!"
+						/>
+					</a>
+				</div>
 
-        <div id="settings-menu" class="hidden">
-            <div onclick="closeMenu(this)" class="hide-btn">×</div>
-            <div id="status-changer">
-                <h3>Change status to:</h3>
-                <div id="status-flexbox-container">
-                    <div id="status-online">🟢 Online </div>
-                    <div id="status-away">🟡 Away </div>
-                    <div id="status-dnd">🔴 Do Not Disturb </div>
-                </div>
-            </div>
-            <div id="danger-zone">
-                <p id="danger-text">Danger Zone:</p>
-                <button id="clear-messages" class="danger">Clear Chat</button>
-            </div>
-        </div>
-        <!-- remove? -->
+				<button
+					class="file-send forbidden"
+					onchange="selectFile(event)"
+					title="Upload file"
+					type="button"
+				>
+					<label id="file-input-label" class="hidden">Upload file</label>
+					<input
+						type="file"
+						id="file-input"
+						class="hidden"
+						aria-labelledby="file-input-label"
+					/>
+					<svg width="24" height="24" viewBox="0 0 24 24">
+						<path
+							d="M12 2.00098C6.486 2.00098 2 6.48698 2 12.001C2 17.515 6.486 22.001 12 22.001C17.514 22.001 22 17.515 22 12.001C22 6.48698 17.514 2.00098 12 2.00098ZM17 13.001H13V17.001H11V13.001H7V11.001H11V7.00098H13V11.001H17V13.001Z"
+						></path>
+					</svg>
+				</button>
+				<textarea
+					class="no-resize"
+					type="text"
+					id="chat-box"
+					placeholder="Enter your message here..."
+					spellcheck="true"
+				></textarea>
+			</div>
 
-        <div class="user-input-container">
-            <div class="ui-buttons">
-                <img class="clickable" onclick="showSettings()" id="gui-settings" src="/imgs/gui/settings.png" title="Settings">
-                <a href="/source" target="blank">
-                    <img id="srccode-icon" src="/imgs/icons/srccodeicon.png" title="See the source code!">
-                </a>
-            </div>
+			<div id="client-error" class="hidden">
+				<h1>Error!</h1>
+				<h3 class="errortext" id="error-contents">
+					Hmm a error should be displayed here. Try reloading.
+				</h3>
+				<button onclick="closeMenu(this)" id="hide-error" type="button">Ok! 👀</button>
+			</div>
+			<div id="client-prompt" class="hidden">
+				<h1 id="prompt-title" class="text-center">Error displaying title</h1>
+				<h3 id="prompt-text">Hmm a prompt should be displayed here. Try reloading.</h3>
+				<button id="prompt-button-yes" type="button">Yes!</button>
+				<button id="prompt-button-no" type="button">No!</button>
+			</div>
+			<div id="connecting-message" class="hidden">
+				<h1 class="leftspace">Disconnected</h1>
+				<div class="loading"></div>
+				<h3 class="adjacent">Attempting to reconnect...</h3>
+				<h4 class="adjacent" id="attempt-number">Attempt 0/10</h4>
+			</div>
 
             <button class="file-send forbidden" onchange="selectFile(event)" >
                 <!-- onclick="document.getElementById('file-input').click();"> -->
@@ -101,5 +163,5 @@
         <script src="client.js"></script>
         <script src="utils/interactables.js"></script>
 </body>
-
 </html>
+

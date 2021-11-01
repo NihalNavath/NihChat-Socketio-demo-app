@@ -47,14 +47,8 @@ async function readFromEnd(input, maxLineCount) {
 			})
 			.then(() => {
 				let promises = [];
-				promises.push(
-					fsPromises.stat(input).then((stat) => (self.stat = stat))
-				);
-				promises.push(
-					fsPromises
-						.open(input, "r")
-						.then((file) => (self.file = file))
-				);
+				promises.push(fsPromises.stat(input).then((stat) => (self.stat = stat)));
+				promises.push(fsPromises.open(input, "r").then((file) => (self.file = file)));
 				return Promise.all(promises);
 			})
 			.then(() => {
@@ -66,30 +60,18 @@ async function readFromEnd(input, maxLineCount) {
 						lines = lines.substring(lines.length - self.stat.size);
 					}
 
-					if (
-						lines.length >= self.stat.size ||
-						lineCount >= maxLineCount
-					) {
-						if (
-							NEW_LINE_CHARACTERS.includes(lines.substring(0, 1))
-						) {
+					if (lines.length >= self.stat.size || lineCount >= maxLineCount) {
+						if (NEW_LINE_CHARACTERS.includes(lines.substring(0, 1))) {
 							lines = lines.substring(1);
 						}
 						self.file.close();
-						return resolve(
-							Buffer.from(lines, "binary")
-								.toString("utf-8")
-								.split("\n")
-						);
+						return resolve(Buffer.from(lines, "binary").toString("utf-8").split("\n"));
 					}
 
 					return readPreviousCharacter(self.stat, self.file, chars)
 						.then((nextCharacter) => {
 							lines = nextCharacter + lines;
-							if (
-								NEW_LINE_CHARACTERS.includes(nextCharacter) &&
-								lines.length > 1
-							) {
+							if (NEW_LINE_CHARACTERS.includes(nextCharacter) && lines.length > 1) {
 								lineCount++;
 							}
 							chars++;
@@ -100,7 +82,9 @@ async function readFromEnd(input, maxLineCount) {
 			})
 			.catch((err) => {
 				if (self.file !== null) {
-					self.file.close().catch(() => {});
+					self.file.close().catch(() => {
+						return;
+					});
 				}
 				return reject(err);
 			});

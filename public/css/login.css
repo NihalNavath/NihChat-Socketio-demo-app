@@ -1,18 +1,19 @@
-body, html{
+body,
+html {
 	height: 100%;
 	margin: 0;
 	padding: 0;
-	
+
 	background-image: url(../imgs/NihChat.png);
 }
 
-#error{
+#error {
 	color: red;
-    font-weight: bold;
-    font-size: 18px;
+	font-weight: bold;
+	font-size: 18px;
 }
 
-.login-container{
+.login-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -20,17 +21,15 @@ body, html{
 	min-height: 100vh;
 }
 
-
 #login {
 	margin: auto;
 
 	border: 10px solid #ffff00;
 	display: flex;
-    justify-content: space-around;
-    
+	justify-content: space-around;
+
 	flex-direction: column;
 	text-align: center;
-    
 
 	height: 20rem;
 	width: 22rem;
@@ -42,7 +41,6 @@ body, html{
 	font-family: Arial, sans-serif;
 }
 
-
 #source-text-container p a {
 	font-size: 20px;
 	color: hsl(9, 100%, 59%);
@@ -52,14 +50,15 @@ body, html{
 	body {
 		background-image: none;
 	}
-	#login{
-		height: 100%; 
+
+	#login {
+		height: 100%;
 		width: 100%;
 
 		border: none;
 	}
 
-	.login-container{
+	.login-container {
 		height: 100%;
 	}
 }

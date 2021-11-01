@@ -1,23 +1,22 @@
+// idc if older browsers doesn't work es6 is epic!
 // DOM Elements
 const chatDiv = document.getElementById("chat-area");
 const clientErrorDiv = document.getElementById("client-error");
 const clientErrorText = document.getElementById("error-contents");
-const clientHideButton = document.getElementById("hide-error");
+// const clientHideButton = document.getElementById("hide-error");
 const onlineList = document.getElementById("online-list");
 const onlineUsersPanel = document.getElementById("online-list-names");
 const onlineUsersPanel2 = document.getElementById("online-list-names2");
 const messageContainer = document.getElementById("message-container");
 const chatField = document.getElementById("chat-box");
 const settingsPanel = document.getElementById("settings-menu");
-const srcDiv = document.getElementById("source-text-container");
+// const srcDiv = document.getElementById("source-text-container");
 const totalOnline = document.getElementById("online-list");
 const onlineButton = document.getElementById("status-online");
 const awayButton = document.getElementById("status-away");
 const dndButton = document.getElementById("status-dnd");
 const connectingDiv = document.getElementById("connecting-message");
-const messageContainerBorder = document.getElementById(
-	"message-container-border"
-);
+const messageContainerBorder = document.getElementById("message-container-border");
 const attempts = document.getElementById("attempt-number");
 const pinButton = document.getElementById("pinbutton");
 const clearChatButton = document.getElementById("clear-messages");
@@ -36,8 +35,6 @@ let unreadMessages = 0;
 
 let file;
 
-
-
 //Local storage
 const lsStatus = localStorage.getItem("status");
 
@@ -48,18 +45,18 @@ const statusesDivName = {
 };
 
 // Connection related
-connect()
+connect();
 
 function connect() {
 	if (!firstConnect) {
 		return;
 	}
 	let stop = false;
-	const username = readCookie("socket_username")
-	if (!username){
-		location.href = "/"
+	const username = readCookie("socket_username");
+	if (!username) {
+		location.href = "/";
 	}
-	socket = io({
+	const socket = io({
 		auth: {
 			username: username,
 			status: lsStatus,
@@ -69,7 +66,7 @@ function connect() {
 		autoConnect: false,
 	});
 	let status = lsStatus || 0;
-	socket.on("newMessage", function (data) {
+	socket.on("newMessage", (data) => {
 		switch (data.type) {
 			case "SYSTEM": {
 				systemMessage(data);
@@ -80,22 +77,18 @@ function connect() {
 				break;
 			}
 			default: {
-				alert(
-					"Received unknown message! Is app out of date? Reloading!"
-				);
+				alert("Received unknown message! Is app out of date? Reloading!");
 				location.reload();
 				return;
 			}
 		}
 		messageContainerBorder.scrollTop =
-			messageContainerBorder.scrollHeight -
-			messageContainerBorder.clientHeight;
+			messageContainerBorder.scrollHeight - messageContainerBorder.clientHeight;
 	});
-	socket.on("newFile", function (data) {
+	socket.on("newFile", (data) => {
 		sendImage(data);
 		messageContainerBorder.scrollTop =
-			messageContainerBorder.scrollHeight -
-			messageContainerBorder.clientHeight;
+			messageContainerBorder.scrollHeight - messageContainerBorder.clientHeight;
 	});
 
 	socket.on("history", (historyEntries) => {
@@ -110,9 +103,7 @@ function connect() {
 					break;
 				}
 				default: {
-					alert(
-						"Received unknown message! Is app out of date? Reloading!"
-					);
+					alert("Received unknown message! Is app out of date? Reloading!");
 					location.reload();
 					return;
 				}
@@ -158,53 +149,20 @@ function connect() {
 			});
 		} else {
 			firstConnect = false;
-			const currentStatusDiv = document.getElementById(
-				statusesDivName[status]
-			);
-			currentStatusDiv.style.backgroundColor = "grey";
-			onlineButton.addEventListener("click", function (e) {
-				const num = 0;
+			{
+				const currentStatusDiv = document.getElementById(statusesDivName[status]);
+				currentStatusDiv.style.backgroundColor = "grey";
+			}
+			const handler = (e) => {
+				const num = parseInt(e.target.dataset.status);
 				socket.emit("status", num);
 				localStorage.setItem("status", num);
-				const lastStatusDiv = document.getElementById(
-					statusesDivName[status]
-				);
+				const lastStatusDiv = document.getElementById(statusesDivName[status]);
 				lastStatusDiv.style.backgroundColor = "";
-				const currentStatusDiv = document.getElementById(
-					statusesDivName[num]
-				);
+				const currentStatusDiv = document.getElementById(statusesDivName[num]);
 				currentStatusDiv.style.backgroundColor = "grey";
 				status = num;
-			});
-			awayButton.addEventListener("click", function (e) {
-				const num = 1;
-				socket.emit("status", num);
-				localStorage.setItem("status", num);
-				const lastStatusDiv = document.getElementById(
-					statusesDivName[status]
-				);
-				lastStatusDiv.style.backgroundColor = "";
-				const currentStatusDiv = document.getElementById(
-					statusesDivName[num]
-				);
-				currentStatusDiv.style.backgroundColor = "grey";
-				status = num;
-			});
-			dndButton.addEventListener("click", function (e) {
-				const num = 2;
-				socket.emit("status", num);
-				localStorage.setItem("status", num);
-				const lastStatusDiv = document.getElementById(
-					statusesDivName[status]
-				);
-				// lastStatusDiv.style.backgroundColor = "none";
-				// delete lastStatusDiv.style.backgroundColor;
-				lastStatusDiv.style.backgroundColor = "";
-				const currentStatusDiv = document.getElementById(
-					statusesDivName[num]
-				);
-				currentStatusDiv.style.backgroundColor = "grey";
-				status = num;
+
 			});
 			chatField.addEventListener("keyup", function (e) {
 				const message = chatField.value;
@@ -214,22 +172,49 @@ function connect() {
 				}
 				else if (e.key == "Enter" && !e.shiftKey) {
 					preMessageCheck(message)
+			};
+			[onlineButton, awayButton, dndButton].forEach((v) =>
+				v.addEventListener("click", handler)
+			);
+			chatField.addEventListener("keydown", function (e) {
+				document.querySelectorAll(".unread-separator").forEach((v) => v.remove());
+				const message = escape(chatField.value.trim());
+				if (e.key === "Enter") {
+					if (file) {
+						sendFile(file);
+					} else {
+						if (e.shiftKey || message === "") {
+							return;
+						}
+						e.preventDefault();
+						if (message.length > 500) {
+							return showError(
+								"Message is too long! It can't exceed 500 characters in length"
+							);
+						}
+						if (message.split(/\r|\r\n|\n/).length > 10) {
+							return showError(
+								"Too many white spaces! This looks like spam. Try to reduce the new line count."
+							);
+						}
+						sendMessage(socket, message);
+						chatField.value = "";
+					}
 				}
 			});
 		}
 	});
 
 	socket.on("connect_error", (error) => {
-		
 		if (stop || socket.reconnecting) {
 			return;
 		}
-		if (error.data?.usernameRelated) {
+		if (error.data && error.data.usernameRelated) {
 			alert(error.message + " Reloading!");
-			return returnToHome()
+			return returnToHome();
 		} else {
 			alert(`Error detected! ${error}`);
-			return returnToHome()
+			return returnToHome();
 		}
 	});
 
@@ -258,34 +243,34 @@ function updateUsers(num, users) {
 	}
 }
 function updateList(users) {
-	onlineUsersPanel2.innerHTML = users
-		.map((v) => `<p class="online-list-name">${v}</p>`)
-		.join("");
+	onlineUsersPanel2.innerHTML = users.map((v) => `<p class="online-list-name">${v}</p>`).join("");
 }
 
 function showPanel() {
-	onlineUsersPanel.style.width = "250px";
+	onlineUsersPanel.classList.add("hovered");
 }
 
 function hidePanel() {
 	if (!pinned) {
-		onlineUsersPanel.style.width = "0px";
+		onlineUsersPanel.classList.remove("hovered");
 	}
 }
 
+// eslint-disable-next-line no-unused-vars
 function pin() {
-	pinbutton.innerHTML = (pinned = !pinned)
-		? (pinbutton.innerHTML = "📍")
-		: (pinbutton.innerHsTML = "📌");
+	pinned = !pinned;
+	pinButton.innerHTML = pinned ? "📍" : "📌";
+	onlineUsersPanel.classList.toggle("pinned", pinned);
 }
 
-function selectFile(event){
-	if (event.target.files[0].size >= 5000000){
-		showError("File is too op! File can't exceed 5 mb in size.")
-		return 
+// eslint-disable-next-line no-unused-vars
+function selectFile(event) {
+	if (event.target.files[0].size >= 5000000) {
+		showError("File is too op! File can't exceed 5 mb in size.");
+		return;
 	}
 
-	showFilePreview(event.target.files[0])
+	showFilePreview(event.target.files[0]);
 }
 
 // Message related
@@ -314,49 +299,48 @@ function sendMessage(socket, message) {
 	socket.emit("newMessage", message);
 }
 
-function sendFile(file){
+function sendFile(socket, file) {
 	file = {
-		"file": file,
-		"name": file.name,
-		"mimeType": file.type,
-		"size": file.size
-	}
+		file: file,
+		name: file.name,
+		mimeType: file.type,
+		size: file.size,
+	};
 	socket.emit("sendFile", file);
-	file = null;
 }
 
 function systemMessage(data) {
-	if (userAwayFromChat ){
-		unreadMessages += 1
-		updateTitle()
+	if (userAwayFromChat) {
+		unreadMessages += 1;
+		updateTitle();
 
-		if (!userAwayNotified){ 
-		userAwayNotified = true
-		const awayDiv = document.createElement("div");
-		awayDiv.className = "unread-separator"
-		awayDiv.setAttribute("aria-label", "unread")
-		messageContainer.appendChild(awayDiv);
+		if (!userAwayNotified) {
+			userAwayNotified = true;
+			const awayDiv = document.createElement("div");
+			awayDiv.className = "unread-separator";
+			awayDiv.setAttribute("aria-label", "unread");
+			messageContainer.appendChild(awayDiv);
 		}
 	}
 
 	const p = document.createElement("p");
-	p.className = "system-message";
+	p.className = "message system-message";
 	p.innerHTML = data.text;
 	p.style.color = data.color;
 	messageContainer.appendChild(p);
 }
 
 function normalMessage(data) {
-	if (userAwayFromChat ){
-		unreadMessages += 1
-		updateTitle()
+	if (userAwayFromChat) {
+		unreadMessages += 1;
+		updateTitle();
 
-		if (!userAwayNotified){ 
-		userAwayNotified = true
-		const awayDiv = document.createElement("div");
-		awayDiv.className = "unread-separator"
-		awayDiv.setAttribute("aria-label", "unread")
-		messageContainer.appendChild(awayDiv);
+		if (!userAwayNotified) {
+			userAwayNotified = true;
+			const awayDiv = document.createElement("div");
+			awayDiv.className = "unread-separator";
+			awayDiv.setAttribute("aria-label", "unread");
+			messageContainer.appendChild(awayDiv);
 		}
 	}
 	const p = document.createElement("p");
@@ -371,7 +355,7 @@ function normalMessage(data) {
 //IMAGE
 function sendImage(data) {
 	const container = document.createElement("div");
-	container.className = "image-container"
+	container.className = "image-container";
 	const p = document.createElement("p");
 	const timestamp = new Date(data.timestamp);
 	p.className = "message";
@@ -380,10 +364,10 @@ function sendImage(data) {
 	}</b>: ${data.message}`;
 
 	const img = document.createElement("img");
-	
+
 	img.className = "img";
-	
-	const blob = new Blob([file])
+
+	const blob = new Blob([file]);
 	const url = URL.createObjectURL(blob);
 
 	img.src = url;
@@ -393,16 +377,18 @@ function sendImage(data) {
 	messageContainer.appendChild(container);
 }
 
-function showFilePreview(file){
-	const blob = new Blob([file])
+function showFilePreview(file) {
+	const blob = new Blob([file]);
 	const url = URL.createObjectURL(blob);
 
-	document.getElementById("file-preview-container").setAttribute("src", url)
+	document.getElementById("file-preview-container").setAttribute("src", url);
 }
 
+// eslint-disable-next-line no-unused-vars
 function clearMessages() {
 	messageContainer.innerHTML = "";
 }
+
 // Utilities
 document.addEventListener("visibilitychange", newMessageInfo);
 totalOnline.addEventListener("mouseover", showPanel);
@@ -422,14 +408,25 @@ clearChatButton.addEventListener("click", () => {
 	);
 });
 
-function updateTitle(){
-	document.title = `(${unreadMessages}) NihChat`
+function escape(s) {
+	let replace = {
+		"&": "&amp;",
+		'"': "&quot;",
+		"'": "&#039;",
+		"<": "&lt;",
+		">": "&gt;",
+	};
+	return s.replace(/[&"'<>]/g, (c) => replace[c]);
 }
 
-function newMessageInfo(){
-	switch(document.visibilityState) {
+function updateTitle() {
+	document.title = `(${unreadMessages}) NihChat`;
+}
+
+function newMessageInfo() {
+	switch (document.visibilityState) {
 		case "hidden":
-		  	userAwayFromChat = true;
+			userAwayFromChat = true;
 			break;
 		case "visible":
 			userAwayFromChat = false;
@@ -437,21 +434,22 @@ function newMessageInfo(){
 			unreadMessages = 0;
 			document.title = "NihChat";
 			break;
-	  }
+	}
 }
 
-function returnToHome(){
-	location.href = "/"
+function returnToHome() {
+	location.href = "/";
 }
 
+// eslint-disable-next-line no-unused-vars
 function showSettings() {
 	settingsPanel.style.display = "block";
 }
 
 function readCookie(name) {
-	let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)")
-	return result ? result.pop() : ""
-  }
+	let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)");
+	return result ? result.pop() : "";
+}
 
 function showError(error) {
 	clientErrorText.innerText = error;

@@ -1,0 +1,25 @@
+{
+	"env": {
+		"node": true,
+		"es6": true,
+		"commonjs": true
+	},
+	"extends": ["eslint:recommended", "prettier"],
+	"parserOptions": {
+		"ecmaVersion": 2020
+	},
+	"rules": {
+		"no-extra-parens": "off",
+		"eqeqeq": ["error", "smart"],
+		"array-bracket-spacing": "off",
+		"brace-style": "off",
+		"comma-dangle": "off",
+		"comma-spacing": "off",
+		"comma-style": "off",
+		"quotes": "off",
+		"indent": "off",
+		"semi": "off",
+		"semi-style": "off",
+		"semi-spacing": "off"
+	}
+}
