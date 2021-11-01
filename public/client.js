@@ -292,7 +292,6 @@ function selectFile(event){
 function preMessageCheck(message){
 	if (!message){
 		message = chatField.value;
-		console.log("message is none", message)
 	}
 	if (message.trim() === "" ){
 		return chatField.value = "";
