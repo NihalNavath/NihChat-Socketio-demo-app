@@ -16,6 +16,7 @@ const io = new Server(server);
 
 const path = require("path");
 const users = new Map();
+const usedIds = new Set();
 if (enableFileHistory) {
 	fs.readFromEnd("file.log", 50).then((data) => {
 		console.log(data);
@@ -47,12 +48,16 @@ function checkUserName(username) {
 }
 
 io.use((socket, next) => {
+	if (usedIds.has(socket.conn.id)) {
+		return new Error("Already logged in");
+	}
 	const username = escape(socket.handshake.auth.username);
 	const err = checkUserName(username);
 	if (err) {
 		return next(err);
 	}
 	socket.username = username;
+	usedIds.add(socket.conn.id);
 	next();
 });
 
@@ -73,7 +78,7 @@ io.on("connection", (socket) => {
 	});
 	socket.on("newMessage", (message) => {
 		if (message && typeof message === "string") {
-			message = message.trim();
+			message = escape(message.trim());
 		} else {
 			return;
 		}
@@ -104,6 +109,7 @@ io.on("connection", (socket) => {
 		let i = 0;
 		while (time - obj.timestamps[i] > 10000) {
 			obj.timestamps.shift();
+			i++;
 		}
 		if (obj.timestamps.length > 11) {
 			return sendMessage(
@@ -125,6 +131,7 @@ io.on("connection", (socket) => {
 	socket.on("disconnect", (reason) => {
 		if (users.has(socket.username)) {
 			users.delete(socket.username);
+			usedIds.delete(socket.conn.id);
 			updateUserList();
 			sendMessage({
 				type: "SYSTEM",
@@ -214,10 +221,11 @@ function escape(s) {
 	let replace = {
 		"&": "&amp;",
 		'"': "&quot;",
+		"'": "&#039;",
 		"<": "&lt;",
 		">": "&gt;",
 	};
-	return s.replace(/[&"<>]/g, (c) => replace[c]);
+	return s.replace(/[&"'<>]/g, (c) => replace[c]);
 }
 
 app.get("/source", (req, res) => {

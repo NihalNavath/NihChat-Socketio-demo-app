@@ -168,7 +168,7 @@ function connect() {
 			);
 			chatField.addEventListener("keydown", function (e) {
 				document.querySelectorAll(".unread-separator").forEach((v) => v.remove());
-				const message = chatField.value.trim();
+				const message = escape(chatField.value.trim());
 				if (e.key === "Enter") {
 					if (file) {
 						sendFile(file);
@@ -376,6 +376,17 @@ clearChatButton.addEventListener("click", () => {
 		}
 	);
 });
+
+function escape(s) {
+	let replace = {
+		"&": "&amp;",
+		'"': "&quot;",
+		"'": "&#039;",
+		"<": "&lt;",
+		">": "&gt;",
+	};
+	return s.replace(/[&"'<>]/g, (c) => replace[c]);
+}
 
 function updateTitle() {
 	document.title = `(${unreadMessages}) NihChat`;
