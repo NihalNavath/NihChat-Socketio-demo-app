@@ -7,145 +7,137 @@
     online list
 */
 
+body,
+html {
+	height: 100%;
 
+	margin: 0;
 
-body, html{
-    height: 100%;
-
-    margin: 0;
-
-    /* background-color: rgb(26, 25, 25); */
+	/* background-color: rgb(26, 25, 25); */
 }
 
 /* server selector navbar */
-.selector-row{
-    display: flex;
-    justify-content: center;
+.selector-row {
+	display: flex;
+	justify-content: center;
 
-    background-image: url(/imgs/nihchat-bg2.svg);
+	background-image: url(/imgs/nihchat-bg2.svg);
 }
 
 .server {
-    height: 100px;
-    width: 50x;
-    background-color: #bbb;
-    border-radius: 50%;
-    display: inline-block;
+	height: 100px;
+	width: 50x;
+	background-color: #bbb;
+	border-radius: 50%;
+	display: inline-block;
 }
 
-.server img{
-    border-radius: 50%;
-    max-width: 100px;
+.server img {
+	border-radius: 50%;
+	max-width: 100px;
 
-    border: black solid 1px;
+	border: black solid 1px;
 }
 
 /* main chat */
-.main-chat-border{
-    border-radius: 25px;
-    border: 2px solid #73ad21;
-    padding: 10px;
-
-    overflow-y: scroll; 
-
-    height: 80vh;
-    width: 100%;
-    box-sizing: border-box;
+.main-chat-border {
+	border-radius: 25px;
+	border: 2px solid #73ad21;
+	padding: 10px;
+	overflow-y: scroll;
+	overflow-wrap: break-word;
+	height: 80vh;
+	width: 100%;
+	box-sizing: border-box;
 }
 
-#chat-box{
-    border: 5px solid;
-    width: 100%;
-
-    font-size: 1rem;
+#chat-box {
+	border: 5px solid;
+	width: 100%;
+	font-size: 1rem;
 }
 
-.user-interactables-container{
-    display: flex;
-    flex-direction: column;
+.user-interactables-container {
+	display: flex;
+	flex-direction: column;
 }
 
 /* user interactables */
-.user-input-container{
-    display: flex;
-    height: 4rem;
+.user-input-container {
+	display: flex;
+	height: 4rem;
 }
 
-.file-send{
-    width: 5rem;
+.file-send {
+	width: 5rem;
 }
 
-.ui-buttons{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin: 5px;
+.ui-buttons {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	margin: 5px;
 }
 
-.ui-buttons img{
-    width: 20px;
+.ui-buttons img {
+	width: 20px;
 }
 
 /* settings */
-#settings-menu{
-    width: 40vh;
-    position: absolute;
-    left: 40%;
-    top: 30%;
-    background-color: rgb(255, 133, 111);
-
-    border-radius: 3%;
+#settings-menu {
+	width: 40vh;
+	position: absolute;
+	left: 40%;
+	top: 30%;
+	background-color: rgb(255, 133, 111);
+	border-radius: 3%;
 }
 
 #status-changer {
-    text-align: center;
-    padding: 1em;
+	text-align: center;
+	padding: 1em;
 }
 
 #danger-zone {
-    border-style: dotted;
-    border-color: red;
+	border-style: dotted;
+	border-color: red;
 }
 
 #danger-zone #danger-text {
-    color: red;
-    text-align: center;
+	color: red;
+	text-align: center;
 
-    margin: 5px;
+	margin: 5px;
 }
 
 #status-changer div {
-    flex-direction: column;
-    text-align: center;
-    padding: 1em;
+	flex-direction: column;
+	text-align: center;
+	padding: 1em;
 }
 
 /* messages */
-.main-chat-border p{
-    font-size: larger;
-    margin: 2px;
-
-    white-space: pre-wrap;
+.message {
+	font-size: larger;
+	margin: 2px;
 }
 
-.system-message{
-    background-color: #ebebe4;
+.system-message {
+	background-color: #ebebe4;
 }
 
-.unread-separator{
-    background-color: black;
-    width: 100%;
-    height: 1px;
-
-    margin: 10px 0px 10px 0px;
+.unread-separator {
+	background-color: black;
+	width: 100%;
+	height: 1px;
+	margin: 10px 0px 30px 0px;
 }
 
-.unread-separator::before{
-    content: 'NEW MESSAGES';
-    color: gray;
-
-    justify-content: center;
-    display: flex;
+.unread-separator::before {
+	content: "NEW MESSAGES";
+	color: gray;
+	justify-content: center;
+	display: flex;
 }
 
 /* prompts */
@@ -159,6 +151,18 @@ body, html{
 	background-color: red;
 	width: 100%;
 	height: 2.5em;
+}
+
+#connecting-message {
+	display: none;
+	background-color: lightblue;
+	height: 25vh;
+	width: 40vh;
+	position: absolute;
+	left: 40%;
+	top: 30%;
+	border-radius: 10%;
+	transition: 5s;
 }
 
 #client-prompt {
@@ -188,6 +192,10 @@ body, html{
 }
 
 /* online list */
+#online-listh1 {
+	text-align: center;
+}
+
 #online-list {
 	text-align: right;
 	background-color: rgb(124, 255, 124);
@@ -198,10 +206,6 @@ body, html{
 	height: 5vh;
 	width: 25vh;
 	clip-path: polygon(0 0, 0 25%, 40% 100%, 100% 100%, 100% 0);
-}
-
-#online-list:hover #online-list-names{
-    width: 250px;
 }
 
 .online-list-name {
@@ -221,4 +225,29 @@ body, html{
 	overflow-x: hidden;
 	transition: 0.5s;
 	padding-top: 60px;
+}
+
+#online-list-names.hovered {
+	width: 250px;
+}
+
+/* #online-list-names.pinned {
+
+} */
+
+.loading {
+	margin: 10px;
+	float: left;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	border: 5px solid oldlace;
+	border-top-color: red;
+	animation: around-and-round-you-turn-me 1s infinite;
+}
+
+@keyframes around-and-round-you-turn-me {
+	100% {
+		transform: rotate(360deg);
+	}
 }

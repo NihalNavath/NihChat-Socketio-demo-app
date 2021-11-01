@@ -1,4 +1,0 @@
-{
-  "excludeFiles": ["!file.log"],
-  "hideFiles": ["!file.log"]
-}
