@@ -212,19 +212,8 @@ function connect() {
 					sendFile(file);
 					return;
 				}
-				else if (e.key == "Enter" && message.trim() != "" && !e.shiftKey) {
-					if (message.trim().length > 500) {
-						return showError(
-							"Message is too long! It can't exceed 500 characters in length"
-						);
-					}
-					if (message.split(/\r|\r\n|\n/).length > 10){
-						return showError(
-							"Too many white spaces! This looks like spam. Try to reduce the new line count."
-						);
-					}
-					sendMessage(socket, message);
-					chatField.value = "";
+				else if (e.key == "Enter" && !e.shiftKey) {
+					preMessageCheck(message)
 				}
 			});
 		}
@@ -300,6 +289,28 @@ function selectFile(event){
 }
 
 // Message related
+function preMessageCheck(message){
+	if (!message){
+		message = chatField.value;
+		console.log("message is none", message)
+	}
+	if (message.trim() === "" ){
+		return chatField.value = "";
+	}
+	if (message.trim().length > 500) {
+		return showError(
+			"Message is too long! It can't exceed 500 characters in length"
+		);
+	}
+	if (message.split(/\r|\r\n|\n/).length > 10){
+		return showError(
+			"Too many white spaces! This looks like spam. Try to reduce the new line count."
+		);
+	}
+	sendMessage(socket, message);
+	chatField.value = "";
+}
+
 function sendMessage(socket, message) {
 	socket.emit("newMessage", message);
 }

@@ -89,6 +89,10 @@ body, html{
     width: 20px;
 }
 
+.send-btn{
+    width: 5rem;
+}
+
 /* settings */
 #settings-menu{
     width: 40vh;
