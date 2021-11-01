@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="/css/chatapp.css">
     <link rel="stylesheet" href="/css/helper.css">
 
+    <link rel="stylesheet" media="screen and (max-width: 1024px)" href="/css/chatmobilerules.css">
+
     <script src="../socket.io/socket.io.js"></script>
 </head>
 
@@ -89,7 +91,7 @@
             <button id="prompt-button-yes">Yes!</button>
             <button id="prompt-button-no">No!</button>
         </div>
-        <div id="connecting-message" class="hidden">
+        <div id="connecting-message" class="hidden text-center">
             <h1 class="leftspace">Disconnected</h1>
             <div class="loading"></div>
             <h3 class="adjacent">Attempting to reconnect...</h3>
