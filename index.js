@@ -231,12 +231,11 @@ function escape(s) {
 	return s.replace(/[&"'<>]/g, (c) => replace[c]);
 }
 
-async function getWelcomeTip()
-{
-	if (!tipList){
-		const data = await asyncReader("json/tips.json", {encoding: "utf8"});
-		tipList = JSON.parse(data)
-	}; 
+async function getWelcomeTip() {
+	if (!tipList) {
+		const data = await asyncReader("json/tips.json", { encoding: "utf8" });
+		tipList = JSON.parse(data);
+	}
 
 	return tipList ? tipList[Math.floor(Math.random() * tipList.length)] : [];
 }
@@ -261,8 +260,8 @@ app.post("/api/usernamecheck", (req, res) => {
 });
 
 app.get("/api/randomtip", async (req, res) => {
-	const tip = await getWelcomeTip()
-	res.json({tip: tip})
+	const tip = await getWelcomeTip();
+	res.json({ tip: tip });
 });
 
 server.listen(PORT, () => {
