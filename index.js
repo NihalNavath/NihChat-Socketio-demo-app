@@ -1,4 +1,5 @@
 const fs = require("./fs");
+const asyncReader = require("fs/promises").readFile;
 const express = require("express");
 const PORT = process.env.PORT || 3000;
 const { Server } = require("socket.io");
@@ -27,6 +28,8 @@ if (enableFileHistory) {
 }
 const history = [];
 app.use(express.static(path.join(__dirname, "public"), { extensions: ["html"] }));
+
+let tipList;
 
 function checkUserName(username) {
 	if (!username || username === "") {
@@ -228,6 +231,16 @@ function escape(s) {
 	return s.replace(/[&"'<>]/g, (c) => replace[c]);
 }
 
+async function getWelcomeTip()
+{
+	if (!tipList){
+		const data = await asyncReader("json/tips.json", {encoding: "utf8"});
+		tipList = JSON.parse(data)
+	}; 
+
+	return tipList ? tipList[Math.floor(Math.random() * tipList.length)] : [];
+}
+
 app.get("/source", (req, res) => {
 	res.redirect("https://github.com/NihalNavath/NihChat-Socketio-demo-app");
 });
@@ -245,6 +258,11 @@ app.post("/api/usernamecheck", (req, res) => {
 		};
 		res.json(data);
 	}
+});
+
+app.get("/api/randomtip", async (req, res) => {
+	const tip = await getWelcomeTip()
+	res.json({tip: tip})
 });
 
 server.listen(PORT, () => {

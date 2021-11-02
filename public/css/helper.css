@@ -8,8 +8,10 @@
 
 .success,
 .green {
-	color: #fff;
-	background-color: rgb(42, 180, 42);
+	color: white;
+
+	background-color: rgb(85, 255, 85);
+	border-color: #198754;
 }
 
 .cancel,
@@ -20,6 +22,7 @@
 
 .max {
 	width: 100%;
+	height: 100%;
 }
 
 .text-center {

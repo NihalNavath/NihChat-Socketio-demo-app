@@ -16,6 +16,17 @@ html {
 	/* background-color: rgb(26, 25, 25); */
 }
 
+/* loading screen */
+.loading-screen {
+	position: fixed;
+	z-index: 2;
+	background: white;
+
+	opacity: 1;
+	-webkit-transition: opacity 1000ms linear;
+	transition: opacity 1000ms linear;
+}
+
 /* server selector navbar */
 .selector-row {
 	display: flex;
@@ -81,6 +92,10 @@ html {
 
 .ui-buttons img {
 	width: 20px;
+}
+
+.send-btn {
+	width: 5rem;
 }
 
 /* settings */

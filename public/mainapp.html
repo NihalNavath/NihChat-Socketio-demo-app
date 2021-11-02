@@ -10,11 +10,17 @@
 
 		<link rel="stylesheet" href="/css/chatapp.css" />
 		<link rel="stylesheet" href="/css/helper.css" />
+        
+        <link rel="stylesheet" media="screen and (max-width: 1024px)" href="/css/chatmobilerules.css">
 
 		<script src="../socket.io/socket.io.js"></script>
 	</head>
-
 	<body>
+        <div id="loading-screen"class="loading-screen max text-center">
+			<h1>NihChat is loading</h1>
+			<h3 class="ghost" id="tip"></h3>
+		</div>
+
 		<div class="text-center selector-row">
 			<div class="server">
 				<img alt="Global Chat Button" class="clickable" src="imgs/globalchat.png" />
@@ -54,7 +60,6 @@
 					<button id="clear-messages" class="danger" type="button">Clear Chat</button>
 				</div>
 			</div>
-			<!-- remove? -->
 
 			<div class="user-input-container">
 				<div class="ui-buttons">
@@ -102,6 +107,7 @@
 					placeholder="Enter your message here..."
 					spellcheck="true"
 				></textarea>
+                <button class="send-btn green" id="send-btn"> <img src="/imgs/icons/send-button.svg"> </button>
 			</div>
 
 			<div id="client-error" class="hidden">

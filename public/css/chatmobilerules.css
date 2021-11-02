@@ -1,0 +1,11 @@
+/* ruleset used when max-width: 1024 px */
+
+#settings-menu {
+	width: 100%;
+	left: 0;
+}
+
+#connecting-message {
+	width: 100%;
+	left: 0;
+}

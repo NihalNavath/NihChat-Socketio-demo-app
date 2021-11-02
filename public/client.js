@@ -3,14 +3,12 @@
 const chatDiv = document.getElementById("chat-area");
 const clientErrorDiv = document.getElementById("client-error");
 const clientErrorText = document.getElementById("error-contents");
-// const clientHideButton = document.getElementById("hide-error");
 const onlineList = document.getElementById("online-list");
 const onlineUsersPanel = document.getElementById("online-list-names");
 const onlineUsersPanel2 = document.getElementById("online-list-names2");
 const messageContainer = document.getElementById("message-container");
 const chatField = document.getElementById("chat-box");
 const settingsPanel = document.getElementById("settings-menu");
-// const srcDiv = document.getElementById("source-text-container");
 const totalOnline = document.getElementById("online-list");
 const onlineButton = document.getElementById("status-online");
 const awayButton = document.getElementById("status-away");
@@ -25,6 +23,9 @@ const promptDivTitle = document.getElementById("prompt-title");
 const promptDivText = document.getElementById("prompt-text");
 const promptButtonYes = document.getElementById("prompt-button-yes");
 const promptButtonNo = document.getElementById("prompt-button-no");
+const mobileSendButton = document.getElementById("send-btn")
+const loadingScreen = document.getElementById("loading-screen");
+const tip = document.getElementById("tip");
 // Variables
 const enableUserList = true;
 let firstConnect = true;
@@ -46,6 +47,20 @@ const statusesDivName = {
 
 // Connection related
 connect();
+//show tip 
+showTip();
+
+function showTip(){
+	fetch('/api/randomtip', {
+		method: "GET",
+	}).then((response) => {
+		return response.json();
+	}).then((res) => {
+		if (res.tip){ 
+			tip.innerHTML = res.tip
+		}
+	})
+}
 
 function connect() {
 	if (!firstConnect) {
@@ -176,22 +191,11 @@ function connect() {
 						if (e.shiftKey || message === "") {
 							return;
 						}
-						e.preventDefault();
-						if (message.length > 500) {
-							return showError(
-								"Message is too long! It can't exceed 500 characters in length"
-							);
-						}
-						if (message.split(/\r|\r\n|\n/).length > 10) {
-							return showError(
-								"Too many white spaces! This looks like spam. Try to reduce the new line count."
-							);
-						}
-						sendMessage(socket, message);
-						chatField.value = "";
+						preMessageCheck(socket, message)
 					}
 				}
 			});
+            mobileSendButton.addEventListener("click", () => preMessageCheck(socket));
 		}
 	});
 
@@ -264,6 +268,27 @@ function selectFile(event) {
 }
 
 // Message related
+function preMessageCheck(socket, message){
+	if (!message){
+		message = chatField.value;
+	}
+	if (message.trim() === "" ){
+		return chatField.value = "";
+	}
+	if (message.trim().length > 500) {
+		return showError(
+			"Message is too long! It can't exceed 500 characters in length"
+		);
+	}
+	if (message.split(/\r|\r\n|\n/).length > 10){
+		return showError(
+			"Too many white spaces! This looks like spam. Try to reduce the new line count."
+		);
+	}
+	sendMessage(socket, message);
+	chatField.value = "";
+}
+
 function sendMessage(socket, message) {
 	socket.emit("newMessage", message);
 }
@@ -360,6 +385,14 @@ function clearMessages() {
 
 // Utilities
 document.addEventListener("visibilitychange", newMessageInfo);
+document.onreadystatechange = function() {
+	if (document.readyState === "complete") {
+        loadingScreen.style.opacity = 0;
+		setTimeout(function() {
+			loadingScreen.style.display = "none";
+		}, 1);
+    }
+}
 totalOnline.addEventListener("mouseover", showPanel);
 onlineUsersPanel.addEventListener("mouseleave", hidePanel);
 
