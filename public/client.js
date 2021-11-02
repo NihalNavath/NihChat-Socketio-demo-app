@@ -23,7 +23,7 @@ const promptDivTitle = document.getElementById("prompt-title");
 const promptDivText = document.getElementById("prompt-text");
 const promptButtonYes = document.getElementById("prompt-button-yes");
 const promptButtonNo = document.getElementById("prompt-button-no");
-const mobileSendButton = document.getElementById("send-btn")
+const mobileSendButton = document.getElementById("send-btn");
 const loadingScreen = document.getElementById("loading-screen");
 const tip = document.getElementById("tip");
 // Variables
@@ -47,19 +47,21 @@ const statusesDivName = {
 
 // Connection related
 connect();
-//show tip 
+//show tip
 showTip();
 
-function showTip(){
-	fetch('/api/randomtip', {
+function showTip() {
+	fetch("/api/randomtip", {
 		method: "GET",
-	}).then((response) => {
-		return response.json();
-	}).then((res) => {
-		if (res.tip){ 
-			tip.innerHTML = res.tip
-		}
 	})
+		.then((response) => {
+			return response.json();
+		})
+		.then((res) => {
+			if (res.tip) {
+				tip.innerHTML = res.tip;
+			}
+		});
 }
 
 function connect() {
@@ -191,11 +193,11 @@ function connect() {
 						if (e.shiftKey || message === "") {
 							return;
 						}
-						preMessageCheck(socket, message)
+						preMessageCheck(socket, message);
 					}
 				}
 			});
-            mobileSendButton.addEventListener("click", () => preMessageCheck(socket));
+			mobileSendButton.addEventListener("click", () => preMessageCheck(socket));
 		}
 	});
 
@@ -268,19 +270,17 @@ function selectFile(event) {
 }
 
 // Message related
-function preMessageCheck(socket, message){
-	if (!message){
+function preMessageCheck(socket, message) {
+	if (!message) {
 		message = chatField.value;
 	}
-	if (message.trim() === "" ){
-		return chatField.value = "";
+	if (message.trim() === "") {
+		return (chatField.value = "");
 	}
 	if (message.trim().length > 500) {
-		return showError(
-			"Message is too long! It can't exceed 500 characters in length"
-		);
+		return showError("Message is too long! It can't exceed 500 characters in length");
 	}
-	if (message.split(/\r|\r\n|\n/).length > 10){
+	if (message.split(/\r|\r\n|\n/).length > 10) {
 		return showError(
 			"Too many white spaces! This looks like spam. Try to reduce the new line count."
 		);
@@ -385,14 +385,14 @@ function clearMessages() {
 
 // Utilities
 document.addEventListener("visibilitychange", newMessageInfo);
-document.onreadystatechange = function() {
+document.onreadystatechange = function () {
 	if (document.readyState === "complete") {
-        loadingScreen.style.opacity = 0;
-		setTimeout(function() {
+		loadingScreen.style.opacity = 0;
+		setTimeout(function () {
 			loadingScreen.style.display = "none";
 		}, 1);
-    }
-}
+	}
+};
 totalOnline.addEventListener("mouseover", showPanel);
 onlineUsersPanel.addEventListener("mouseleave", hidePanel);
 
