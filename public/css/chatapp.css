@@ -135,6 +135,7 @@ html {
 .message {
 	font-size: larger;
 	margin: 2px;
+	white-space: pre-line;
 }
 
 .system-message {

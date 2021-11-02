@@ -126,6 +126,8 @@ function connect() {
 				}
 			}
 		}
+		loadingScreen.style.pointerEvents = "none";
+		loadingScreen.style.opacity = 0;
 	});
 
 	socket.on("users", (data) => {
@@ -185,14 +187,19 @@ function connect() {
 			);
 			chatField.addEventListener("keydown", function (e) {
 				document.querySelectorAll(".unread-separator").forEach((v) => v.remove());
-				const message = escape(chatField.value.trim());
+				const message = chatField.value.trim();
 				if (e.key === "Enter") {
 					if (file) {
 						sendFile(file);
 					} else {
-						if (e.shiftKey || message === "") {
+						if (message === "") {
+							e.preventDefault();
 							return;
 						}
+						if (e.shiftKey) {
+							return;
+						}
+						e.preventDefault();
 						preMessageCheck(socket, message);
 					}
 				}
@@ -385,14 +392,6 @@ function clearMessages() {
 
 // Utilities
 document.addEventListener("visibilitychange", newMessageInfo);
-document.onreadystatechange = function () {
-	if (document.readyState === "complete") {
-		loadingScreen.style.opacity = 0;
-		setTimeout(function () {
-			loadingScreen.style.display = "none";
-		}, 1);
-	}
-};
 totalOnline.addEventListener("mouseover", showPanel);
 onlineUsersPanel.addEventListener("mouseleave", hidePanel);
 
@@ -409,17 +408,6 @@ clearChatButton.addEventListener("click", () => {
 		}
 	);
 });
-
-function escape(s) {
-	let replace = {
-		"&": "&amp;",
-		'"': "&quot;",
-		"'": "&#039;",
-		"<": "&lt;",
-		">": "&gt;",
-	};
-	return s.replace(/[&"'<>]/g, (c) => replace[c]);
-}
 
 function updateTitle() {
 	document.title = `(${unreadMessages}) NihChat`;
