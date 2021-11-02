@@ -1,4 +1,17 @@
 -- NihChat changelog --
+2.0.2 (2-11-2021)
+> Added send button for mobiles 
+> Added a loading screen that also shows a random tip.
+> Paragraph fix
+> Settings and other divs are now mobile friendly
+
+2.0.1 (1-11-2021)
+Bug fixes:-
+
+> Fixed messages not being parsed
+> Fixed white spaces not being removed at the starting and end of a text
+> IP limit 
+> ...and more
 
 2.0 (30-10-2021)
 New major version:- 2.0
