@@ -45,10 +45,43 @@
 					<hr />
 				</div>
 
-				<div>
+				<div class="login-main">
 					<div id="error"></div>
-					<input id="name" type="text" name="name" placeholder="Enter your username!" />
-					<button type="button" name="button" onclick="connect()">Chat!</button>
+					<input
+						id="name"
+						type="text"
+						name="name"
+						style="font-size: 1.3rem"
+						placeholder="Enter your username!"
+					/>
+					<button
+						class="nihchat-ds-btn clickable"
+						id="login-btn"
+						type="button"
+						name="button"
+						onclick="connect()"
+					>
+						Chat!
+					</button>
+				</div>
+
+				<div class="login-options">
+					<label class="switch m-10x">
+						<div title="Switch auto login (off/on)">
+							<input
+								type="checkbox"
+								id="theme-toggle"
+								aria-label="Switch visual theme (dark or light)"
+								onchange="setAutoLogin()"
+							/>
+							<span class="slider round"></span></div
+					></label>
+					<h3 class="m-10x">Auto login</h3>
+					<img
+						class="m-10x"
+						title="Whether to auto connect/login to NihCHat, saving you from a few additional clicks"
+						src="/imgs/icons/info-circle-filled.svg"
+					/>
 				</div>
 
 				<div id="source-text-container">
@@ -64,6 +97,6 @@
 				</div>
 			</div>
 		</div>
-		<script src="loginhandler.js"></script>
+		<script src="loginhandler.js" defer></script>
 	</body>
 </html>

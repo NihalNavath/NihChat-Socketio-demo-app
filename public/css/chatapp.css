@@ -4,6 +4,7 @@
     settings
     messages
     prompts
+	scroll bar 
     online list
 */
 
@@ -206,6 +207,24 @@ html {
 #client-error h1 {
 	text-align: center;
 }
+/* scroll bar */
+::-webkit-scrollbar {
+	width: 5px;
+	height: 95%;
+}
+
+::-webkit-scrollbar-track {
+	box-shadow: inset 0 0 5px grey;
+}
+
+::-webkit-scrollbar-thumb {
+	background: #00ffa1;
+	border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: greenyellow;
+}
 
 /* online list */
 #online-listh1 {
@@ -246,10 +265,6 @@ html {
 #online-list-names.hovered {
 	width: 250px;
 }
-
-/* #online-list-names.pinned {
-
-} */
 
 .loading {
 	margin: 10px;

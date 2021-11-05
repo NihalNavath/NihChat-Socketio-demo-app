@@ -35,6 +35,7 @@ let userAwayNotified = false;
 let unreadMessages = 0;
 
 let file;
+let emojiData;
 
 //Local storage
 const lsStatus = localStorage.getItem("status");
@@ -45,10 +46,12 @@ const statusesDivName = {
 	2: "status-dnd",
 };
 
-// Connection related
-connect();
 //show tip
 showTip();
+//get emojis
+getEmojis();
+// Connection related
+connect();
 
 function showTip() {
 	fetch("/api/randomtip", {
@@ -61,6 +64,18 @@ function showTip() {
 			if (res.tip) {
 				tip.innerHTML = res.tip;
 			}
+		});
+}
+
+function getEmojis() {
+	fetch("/api/emojidata", {
+		method: "GET",
+	})
+		.then((response) => {
+			return response.json();
+		})
+		.then((res) => {
+			emojiData = res;
 		});
 }
 
@@ -439,6 +454,23 @@ function showSettings() {
 function readCookie(name) {
 	let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)");
 	return result ? result.pop() : "";
+}
+
+function deleteCookie(name) {
+	localStorage.removeItem(name);
+}
+
+function disableAutologin() {
+	const autologin = localStorage.getItem("autologin");
+
+	if (!autologin) {
+		return showError(
+			"Auto login is already disabled, what you trying to do dood? want to enable it? do it on the login page."
+		);
+	}
+
+	localStorage.removeItem("autologin");
+	alert("Autologin has been succesfully disabled.");
 }
 
 function showError(error) {

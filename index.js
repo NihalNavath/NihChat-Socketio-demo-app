@@ -30,6 +30,7 @@ const history = [];
 app.use(express.static(path.join(__dirname, "public"), { extensions: ["html"] }));
 
 let tipList;
+let emojiData;
 
 function checkUserName(username) {
 	if (!username || username === "") {
@@ -51,6 +52,7 @@ function checkUserName(username) {
 }
 
 io.use((socket, next) => {
+	// socket.conn is same for multiple sockets over the same connection
 	if (usedIds.has(socket.conn.id)) {
 		return new Error("Already logged in");
 	}
@@ -128,7 +130,7 @@ io.on("connection", (socket) => {
 		sendMessage({
 			type: "USER",
 			username: socket.username,
-			message: message,
+			message: parseMarkdown(message),
 		});
 	});
 	socket.on("disconnect", (reason) => {
@@ -231,6 +233,7 @@ function escape(s) {
 	return s.replace(/[&"'<>]/g, (c) => replace[c]);
 }
 
+// move functions to utils?
 async function getWelcomeTip() {
 	if (!tipList) {
 		const data = await asyncReader("json/tips.json", { encoding: "utf8" });
@@ -238,6 +241,16 @@ async function getWelcomeTip() {
 	}
 
 	return tipList ? tipList[Math.floor(Math.random() * tipList.length)] : [];
+}
+
+async function cacheEmojiData() {
+	const data = await asyncReader("json/emojis.json", { encoding: "utf8" });
+	return JSON.parse(data);
+}
+
+function parseMarkdown(string) {
+	return string.replace(/\*(.*?)\*/gi, '<span style="font-style: italic">$1</span>');
+	//add more support, I suck at regex.
 }
 
 app.get("/source", (req, res) => {
@@ -262,6 +275,14 @@ app.post("/api/usernamecheck", (req, res) => {
 app.get("/api/randomtip", async (req, res) => {
 	const tip = await getWelcomeTip();
 	res.json({ tip: tip });
+});
+
+app.get("/api/emojidata", async (req, res) => {
+	if (!emojiData) {
+		emojiData = await cacheEmojiData();
+	}
+
+	res.json(emojiData);
 });
 
 server.listen(PORT, () => {
