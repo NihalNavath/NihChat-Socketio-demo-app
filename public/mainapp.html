@@ -70,55 +70,58 @@
 				</div>
 			</div>
 
-			<div class="user-input-container">
-				<div class="ui-buttons">
-					<img
-						alt="Settings image"
-						class="clickable"
-						onclick="showSettings()"
-						id="gui-settings"
-						src="/imgs/gui/settings.png"
-						title="Settings"
-					/>
-					<a href="/source" target="blank">
+			<div>
+				<div id="emoji-container" class="emoji-container"></div>
+				<div class="user-input-container">
+					<div class="ui-buttons">
 						<img
-							alt="Source code image"
-							id="srccode-icon"
-							src="/imgs/icons/srccodeicon.png"
-							title="See the source code!"
+							alt="Settings image"
+							class="clickable"
+							onclick="showSettings()"
+							id="gui-settings"
+							src="/imgs/gui/settings.png"
+							title="Settings"
 						/>
-					</a>
-				</div>
+						<a href="/source" target="blank">
+							<img
+								alt="Source code image"
+								id="srccode-icon"
+								src="/imgs/icons/srccodeicon.png"
+								title="See the source code!"
+							/>
+						</a>
+					</div>
 
-				<button
-					class="file-send forbidden"
-					onchange="selectFile(event)"
-					title="Upload file"
-					type="button"
-				>
-					<label id="file-input-label" class="hidden">Upload file</label>
-					<input
-						type="file"
-						id="file-input"
-						class="hidden"
-						aria-labelledby="file-input-label"
-					/>
-					<svg width="24" height="24" viewBox="0 0 24 24">
-						<path
-							d="M12 2.00098C6.486 2.00098 2 6.48698 2 12.001C2 17.515 6.486 22.001 12 22.001C17.514 22.001 22 17.515 22 12.001C22 6.48698 17.514 2.00098 12 2.00098ZM17 13.001H13V17.001H11V13.001H7V11.001H11V7.00098H13V11.001H17V13.001Z"
-						></path>
-					</svg>
-				</button>
-				<textarea
-					class="no-resize"
-					type="text"
-					id="chat-box"
-					placeholder="Enter your message here..."
-					spellcheck="true"
-				></textarea>
-				<button class="send-btn green" id="send-btn">
-					<img src="/imgs/icons/send-button.svg" />
-				</button>
+					<button
+						class="file-send forbidden"
+						onchange="selectFile(event)"
+						title="Upload file"
+						type="button"
+					>
+						<label id="file-input-label" class="hidden">Upload file</label>
+						<input
+							type="file"
+							id="file-input"
+							class="hidden"
+							aria-labelledby="file-input-label"
+						/>
+						<svg width="24" height="24" viewBox="0 0 24 24">
+							<path
+								d="M12 2.00098C6.486 2.00098 2 6.48698 2 12.001C2 17.515 6.486 22.001 12 22.001C17.514 22.001 22 17.515 22 12.001C22 6.48698 17.514 2.00098 12 2.00098ZM17 13.001H13V17.001H11V13.001H7V11.001H11V7.00098H13V11.001H17V13.001Z"
+							></path>
+						</svg>
+					</button>
+					<textarea
+						class="no-resize"
+						type="text"
+						id="chat-box"
+						placeholder="Enter your message here..."
+						spellcheck="true"
+					></textarea>
+					<button class="send-btn green" id="send-btn">
+						<img src="/imgs/icons/send-button.svg" />
+					</button>
+				</div>
 			</div>
 
 			<div id="client-error" class="hidden">
@@ -142,6 +145,7 @@
 			</div>
 
 			<script src="client.js"></script>
+			<script src="emojisuggestion.js"></script>
 			<script src="utils/interactables.js"></script>
 		</div>
 	</body>

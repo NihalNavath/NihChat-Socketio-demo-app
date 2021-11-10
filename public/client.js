@@ -35,7 +35,6 @@ let userAwayNotified = false;
 let unreadMessages = 0;
 
 let file;
-let emojiData;
 
 //Local storage
 const lsStatus = localStorage.getItem("status");
@@ -48,8 +47,6 @@ const statusesDivName = {
 
 //show tip
 showTip();
-//get emojis
-getEmojis();
 // Connection related
 connect();
 
@@ -64,18 +61,6 @@ function showTip() {
 			if (res.tip) {
 				tip.innerHTML = res.tip;
 			}
-		});
-}
-
-function getEmojis() {
-	fetch("/api/emojidata", {
-		method: "GET",
-	})
-		.then((response) => {
-			return response.json();
-		})
-		.then((res) => {
-			emojiData = res;
 		});
 }
 
@@ -207,7 +192,7 @@ function connect() {
 					if (file) {
 						sendFile(file);
 					} else {
-						if (message === "") {
+						if (message === "" || emojiUsing) {
 							e.preventDefault();
 							return;
 						}

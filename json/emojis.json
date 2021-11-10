@@ -670,7 +670,6 @@
 	"frog": "🐸",
 	"hamster": "🐹",
 	"wolf": "🐺",
-	"polar_bear": "🐻‍❄️",
 	"bear": "🐻",
 	"panda_face": "🐼",
 	"pig_nose": "🐽",
@@ -1876,5 +1875,8 @@
 	"wavy_dash": "〰️",
 	"part_alternation_mark": "〽️",
 	"congratulations": "㊗️",
-	"secret": "㊙️"
+	"secret": "㊙️",
+
+	"sus": "ඞ",
+	"nihal": "nihal is cool"
 }

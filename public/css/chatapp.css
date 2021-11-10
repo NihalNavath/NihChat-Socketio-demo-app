@@ -156,6 +156,25 @@ html {
 	justify-content: center;
 	display: flex;
 }
+/* emoji container */
+.emoji-container {
+	position: absolute;
+	transform: translate(30px, -40px);
+	border-bottom: 5px solid #32a1ce;
+	display: flex;
+	background: wheat;
+	font-size: 20px;
+
+	overflow-x: scroll;
+	max-width: 98%;
+}
+.emoji {
+	margin: 5px;
+}
+
+.emoji:hover {
+	border: 1px solid red;
+}
 
 /* prompts */
 #prompt-button-yes {

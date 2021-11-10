@@ -37,7 +37,7 @@ function setAutoLogin() {
 // eslint-disable-next-line no-unused-vars
 function connect() {
 	const usernameField = document.getElementById("name");
-	const username = usernameField.value;
+	const username = usernameField.value.normalize("NFC");
 
 	fetch("/api/usernamecheck", {
 		method: "POST",

@@ -56,7 +56,7 @@ io.use((socket, next) => {
 	if (usedIds.has(socket.conn.id)) {
 		return new Error("Already logged in");
 	}
-	const username = escape(socket.handshake.auth.username);
+	const username = replaceSpecialCharacter(escape(socket.handshake.auth.username));
 	const err = checkUserName(username);
 	if (err) {
 		return next(err);
@@ -83,7 +83,7 @@ io.on("connection", (socket) => {
 	});
 	socket.on("newMessage", (message) => {
 		if (message && typeof message === "string") {
-			message = escape(message.trim());
+			message = replaceSpecialCharacter(escape(message.trim()));
 		} else {
 			return;
 		}
@@ -185,7 +185,7 @@ function sendMessage(data, socket, raw) {
 	addEntry(data);
 }
 
-//TEST
+//Send files [Beta]
 function sendFile(fileData, socket, raw) {
 	console.log("sending file to client");
 	if (!raw) {
@@ -196,7 +196,6 @@ function sendFile(fileData, socket, raw) {
 	}
 	io.sockets.emit("newFile", fileData);
 }
-//TEST
 
 const statuses = {
 	0: "🟢",
@@ -234,6 +233,10 @@ function escape(s) {
 }
 
 // move functions to utils?
+function replaceSpecialCharacter(str) {
+	return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
 async function getWelcomeTip() {
 	if (!tipList) {
 		const data = await asyncReader("json/tips.json", { encoding: "utf8" });
@@ -258,7 +261,7 @@ app.get("/source", (req, res) => {
 });
 
 app.post("/api/usernamecheck", (req, res) => {
-	const username = req.body.username;
+	const username = replaceSpecialCharacter(req.body.username);
 
 	const check = checkUserName(username);
 	if (!check) {
