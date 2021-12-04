@@ -7,6 +7,12 @@ html {
 	background-image: url(../imgs/NihChat.png);
 }
 
+.login-body {
+	justify-content: center;
+	display: flex;
+	flex-direction: column;
+}
+
 #error {
 	color: red;
 	font-weight: bold;
@@ -17,21 +23,17 @@ html {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
-	min-height: 100vh;
+	/* min-height: 100vh; */
 }
 
 #login {
 	margin: auto;
-
 	border: 10px solid #ffff00;
 	display: flex;
 	justify-content: space-around;
-
 	flex-direction: column;
 	text-align: center;
-
-	height: 20rem;
+	/* height: 20rem; */
 	width: 22rem;
 	background-color: #a7abac;
 	box-shadow: 0 18px 16px grey;
@@ -56,6 +58,20 @@ html {
 #source-text-container p a {
 	font-size: 20px;
 	color: hsl(9, 100%, 59%);
+}
+
+.contributors {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+#contributor-page {
+	overflow: hidden;
+	background-color: white;
+	transition: 0.5s;
+	width: 0;
+	height: 0;
 }
 
 @media only screen and (max-width: 800px) {

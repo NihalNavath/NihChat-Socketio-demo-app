@@ -1,4 +1,15 @@
 -- NihChat changelog --
+
+2.0.4 (03-12-21)
+> Fixed emoji suggester being broken, and enter being disabled if you had ":" in your text
+> Added admin logins so people don't impersonate people with power 
+> Top contributors are now featured on the login page!
+> Temporarily disabled navigating through emojis using arrow keys
+
+2.0.3 (10-11-21)
+> Added emoji suggestions! you can now easily search for emojis by using ":" prefix
+> Text messages and usernames now escapes special characters 
+
 2.0.2 (2-11-2021)
 > Added send button for mobiles 
 > Added a loading screen that also shows a random tip.

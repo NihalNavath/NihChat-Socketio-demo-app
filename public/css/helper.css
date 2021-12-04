@@ -25,8 +25,16 @@
 	height: 100%;
 }
 
+.max-width {
+	width: 100%;
+}
+
 .text-center {
 	text-align: center;
+}
+
+.bold {
+	font-weight: bold;
 }
 
 .hidden {
@@ -169,6 +177,11 @@ input:checked + .slider:before {
 /* padding */
 .m-10x {
 	margin: 10px;
+}
+
+/* Margin */
+.no-margin {
+	margin: 0;
 }
 
 /* utils */

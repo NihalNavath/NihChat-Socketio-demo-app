@@ -5,7 +5,10 @@ let emojiUsing;
 let emojiData;
 let emojiDataArray;
 
+let emojiSearch;
+
 let SelectedEmojiNumber;
+let cursorPosition;
 
 //get emojis
 getEmojis();
@@ -26,17 +29,33 @@ inputField.onkeyup = (e) => {
 	if (!e.key) {
 		return;
 	}
-	if (e.key === ":") {
-		emojiUsing = true;
-	} else if (e.key === "Enter" && emojiUsing) {
+
+	cursorPosition = e.target.selectionStart;
+	testIfEmojiKeyword();
+	if (e.key === "Enter" && emojiUsing) {
 		replaceTextWithEmoji();
-	} else if (e.key === "ArrowRight" || (e.key === "ArrowLeft" && emojiUsing)) {
-		e.preventDefault();
-		selectorUtil(e);
-	} else if (emojiUsing) {
-		emojiSuggest();
+	}
+	//else if (e.key === "ArrowRight" || (e.key === "ArrowLeft" && emojiUsing)) {
+	//e.preventDefault();
+	//selectorUtil(e);
+	//else if (emojiUsing) {
+	//emojiSuggest();
+	else if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+		testIfEmojiKeyword();
 	}
 };
+
+function testIfEmojiKeyword() {
+	const substr = inputField.value.substr(0, cursorPosition);
+	const wordBeforeCursorIsEmoji = substr.charAt(substr.lastIndexOf(" ") + 1) === ":";
+	if (wordBeforeCursorIsEmoji) {
+		emojiUsing = true;
+		return emojiSuggest(substr.slice(substr.lastIndexOf(" ") + 2));
+	} else if (!wordBeforeCursorIsEmoji && emojiContainer.innerHTML.length > 1) {
+		emojiContainer.innerHTML = "";
+	}
+	emojiUsing = false;
+}
 
 function emojiSuggest() {
 	const str = inputField.value;
@@ -46,13 +65,12 @@ function emojiSuggest() {
 		}
 		return;
 	}
-	const tempojiSearch = str.substr(str.indexOf(":") + 1);
-	const emojiSearch = tempojiSearch
+	const tempojiSearch = cutString(str, cursorPosition).substr(str.indexOf(":") + 1);
+	emojiSearch = tempojiSearch
 		.split(":")
 		.pop()
 		.split(/(?<=^\S+)\s/, 1)[0]
 		.toLocaleLowerCase();
-	//console.log(emojiSearch);
 	if (!emojiSearch) {
 		return;
 	}
@@ -64,7 +82,7 @@ function emojiSuggest() {
 }
 
 function showPossibleSuggestions(suggestions) {
-	if (suggestions) {
+	if (suggestions && suggestions.length) {
 		emojiContainer.innerHTML = "";
 		const sug = suggestions.map((data) => {
 			return (data = '<div class="emoji clickable">' + emojiData[data] + "</div>");
@@ -79,6 +97,7 @@ function showPossibleSuggestions(suggestions) {
 }
 
 //Selector util
+//(Disabled for now, todo enable.)
 function selectorUtil(event) {
 	if (SelectedEmojiNumber || SelectedEmojiNumber === 0) {
 		emojiContainer.childNodes[SelectedEmojiNumber].style.border = null;
@@ -101,8 +120,7 @@ function selectorUtil(event) {
 
 emojiContainer.addEventListener("click", (e) => {
 	if (e.target.classList.contains("emoji")) {
-		inputField.value =
-			inputField.value.substr(0, inputField.value.lastIndexOf(":")) + e.target.innerText;
+		inputField.value = inputField.value.replace(`:${emojiSearch}`, e.target.innerText);
 		emojiContainer.innerHTML = "";
 		emojiUsing = false;
 	}
@@ -110,8 +128,19 @@ emojiContainer.addEventListener("click", (e) => {
 
 function replaceTextWithEmoji() {
 	const selectedEmoji = emojiContainer.childNodes[SelectedEmojiNumber].innerHTML;
-	inputField.value =
-		inputField.value.substr(0, inputField.value.lastIndexOf(":")) + selectedEmoji;
+	inputField.value = inputField.value.replace(`:${emojiSearch}`, selectedEmoji);
 	emojiContainer.innerHTML = "";
 	emojiUsing = false;
+}
+
+inputField.addEventListener("click", (e) => {
+	cursorPosition = e.target.selectionStart;
+	testIfEmojiKeyword();
+});
+
+function cutString(str, length) {
+	if (str.length > length) {
+		return str.substr(0, length);
+	}
+	return str;
 }

@@ -8,6 +8,9 @@
 		<link rel="stylesheet" href="/css/helper.css" />
 		<link rel="stylesheet" href="/css/login.css" />
 
+		<!-- Modals -->
+		<link rel="stylesheet" href="/css/contributorsmodel.css" />
+
 		<script src="../socket.io/socket.io.js"></script>
 
 		<!-- HTML Meta Tags -->
@@ -37,7 +40,7 @@
 		<meta name="twitter:image" content="" />
 	</head>
 
-	<body>
+	<body class="login-body">
 		<div class="login-container">
 			<div id="login">
 				<div>
@@ -53,6 +56,15 @@
 						name="name"
 						style="font-size: 1.3rem"
 						placeholder="Enter your username!"
+					/>
+					<input
+						class="hidden"
+						id="password"
+						type="password"
+						type="text"
+						name="password"
+						style="font-size: 1.3rem"
+						placeholder="Enter your password!"
 					/>
 					<button
 						class="nihchat-ds-btn clickable"
@@ -94,6 +106,27 @@
 					<p>
 						<a href="changelog.txt" target="_blank"> ChangeLog </a>
 					</p>
+				</div>
+			</div>
+		</div>
+		<div class="contributors mob-hidden">
+			<button id="contributors-btn" onclick="showContributorsPage()"> 
+				<img class="contributions-btn" src="/imgs/git-branch.png">
+			</button>
+
+			<div id = "contributor-page">
+				<h1 class="bold no-margin text-center">TOP CONTRIBUTORS:-</h1>
+				<h3 class="text-center">We are grateful for the following contributors (ranked by contributions) </h3>
+
+				<div id="contributors-div" class="contributors-div center">
+					<!-- modal example
+						<div class="profile">
+						<img src="https://avatars.githubusercontent.com/u/66069728?v=4" style="width:100%">
+						<h2>Nihal Navath</h2>
+						<h4>Contributions:- 10</h4>
+
+						<button class="github-link max-width"></button>
+					</div> -->
 				</div>
 			</div>
 		</div>

@@ -1,0 +1,36 @@
+/* File preview modal */
+.contributors-div {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.profile {
+	margin: 20px;
+	background-color: #fff;
+
+	min-height: 100px;
+	min-width: 300px;
+
+	box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%);
+	max-width: 300px;
+	text-align: center;
+}
+
+.profile img {
+	width: 100%;
+}
+
+.github-link {
+	color: white;
+	background-color: black;
+	height: 30px;
+}
+
+.github-link::before {
+	content: "GITHUB";
+}
+
+.contributions-btn {
+	width: 20px;
+}

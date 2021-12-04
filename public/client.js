@@ -68,7 +68,7 @@ function connect() {
 	if (!firstConnect) {
 		return;
 	}
-	let stop = false;
+	let stop = false; 
 	const username = readCookie("socket_username");
 	if (!username) {
 		location.href = "/";
@@ -77,6 +77,7 @@ function connect() {
 		auth: {
 			username: username,
 			status: lsStatus,
+			token: readCookie("socket_token"),
 		},
 		transports: ["websocket"],
 		reconnection: false,
@@ -438,7 +439,7 @@ function showSettings() {
 
 function readCookie(name) {
 	let result = document.cookie.match("(^|[^;]+)\\s*" + name + "\\s*=\\s*([^;]+)");
-	return result ? result.pop() : "";
+	return result ? result.pop() : null;
 }
 
 function deleteCookie(name) {
