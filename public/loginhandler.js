@@ -153,7 +153,6 @@ async function populateContributors(){
 		const contributors = document.getElementById("contributors-div");
 		for (let i = 0; i < res.length; i++) {
 			const profile = res[i];
-			console.log(profile)
 
 			const div = document.createElement("div");
 			div.className = "profile";
