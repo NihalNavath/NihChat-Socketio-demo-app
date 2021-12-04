@@ -31,7 +31,7 @@ function autoLogin() {
 }
 
 function checkIfAdmin() {
-	if (nameField.value.includes("nihal")) {
+	if (nameField.value.toLowerCase().includes("nihal")) {
 		pwdField.style.display = "block";
 		pwdFieldActive = true;
 	} else {

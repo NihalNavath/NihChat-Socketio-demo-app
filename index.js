@@ -66,7 +66,7 @@ io.use((socket, next) => {
 	socket.username = username;
 	const validLogin = checkIfValidLogin(socket);
 	if (!validLogin) {
-		return next(new Error("Invalid login, lol you tried."));
+		return next(new Error("Invalid login, you need to re-authenticate with password."));
 	}
 
 	usedIds.add(socket.conn.id);
@@ -283,7 +283,7 @@ function parseMarkdown(string) {
 
 function checkIfValidLogin(socket) {
 	//check if socket.username doesn't contain nihal
-	if (!socket.username.includes("nihal")) {
+	if (!socket.username.toLowerCase().includes("nihal")) {
 		return true;
 	}
 
