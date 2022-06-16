@@ -58,7 +58,7 @@ io.use((socket, next) => {
 	if (usedIds.has(socket.conn.id)) {
 		return next(new Error("Already logged in"));
 	}
-	const username = socket.handshake.auth.username;
+	const username = escape(socket.handshake.auth.username);
 	const err = checkUserName(username);
 	if (err) {
 		return next(err);
