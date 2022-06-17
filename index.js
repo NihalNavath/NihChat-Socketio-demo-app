@@ -33,6 +33,7 @@ const saltRounds = 10;
 
 bcrypt.genSalt(saltRounds, function (err, salt) {
 	const adminData = dotenv.config({ path: ADMIN_SECRET_FOLDER_LOCATION })["parsed"];
+	adminNames = Object.keys(adminData);
 	if (!adminData) {
 		return console.log(`You can add admins in the file "${ADMIN_SECRET_FOLDER_LOCATION}"`)
 	};
@@ -308,9 +309,6 @@ function checkIfValidLogin(socket) {
 
 async function authorize(username, password) {
 	await new Promise((resolve) => setTimeout(resolve, 10));
-
-	console.log("server adminHash", adminHash[username.toLowerCase()])
-	console.log("password send by client", password)
 	return await bcrypt.compare(password, adminHash[username.toLowerCase()]);
 }
 
