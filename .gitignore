@@ -3,3 +3,5 @@ node_modules
 .vsls.json
 
 admin.json
+
+*.env

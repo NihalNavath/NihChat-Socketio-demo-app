@@ -1,9 +1,7 @@
-const fs = require("./fs");
 const asyncReader = require("fs/promises").readFile;
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const fetch = require('cross-fetch');
-const PORT = process.env.PORT || 3000;
 const { Server } = require("socket.io");
 const app = express();
 const server = new (require("http").Server)(app);
@@ -16,23 +14,32 @@ const usedIds = new Set();
 const history = [];
 app.use(express.static(path.join(__dirname, "public"), { extensions: ["html"] }));
 
+const dotenv = require("dotenv");
+
+dotenv.config();
+const PORT = process.env.PORT || 3000;
+
 let tipList;
 let emojiData;
-let adminHash;
+let adminHash = {};
 let adminAuthTokens = [];
+let adminNames = [];
 
 let contributors = [];
 
 //Password/Hashing related
+const ADMIN_SECRET_FOLDER_LOCATION = "ADMIN_SECRET/admin.env"
 const saltRounds = 10;
 
 bcrypt.genSalt(saltRounds, function (err, salt) {
-	asyncReader("json/admin.json", { encoding: "utf8" }).then((data) => {
-		const adminData = JSON.parse(data);
-		adminHash = bcrypt.hashSync(adminData.nihal, salt);
-		console.info("Admin hash generated.");
+	const adminData = dotenv.config({ path: ADMIN_SECRET_FOLDER_LOCATION })["parsed"];
+	if (!adminData) {
+		return console.log(`You can add admins in the file "${ADMIN_SECRET_FOLDER_LOCATION}"`)
+	};
+	Object.entries(adminData).forEach(([name, pwd]) => {
+		adminHash[name] = (bcrypt.hashSync(pwd, salt));
 	});
-	
+	console.info("Admin hash(es) generated.");
 });
 
 function checkUserName(_username) {
@@ -73,6 +80,7 @@ io.use((socket, next) => {
 	next();
 });
 const validFileTypes = ["image"];
+
 io.on("connection", (socket) => {
 	console.log(`A user joined! ${socket.username}`);
 	const obj = {
@@ -282,10 +290,10 @@ function parseMarkdown(string) {
 }
 
 function checkIfValidLogin(socket) {
-	//check if socket.username doesn't contain nihal
-	if (!socket.username.toLowerCase().includes("nihal")) {
+	//check if socket.username doesn't contain an admin name
+	if (!adminNames.includes(socket.username.toLowerCase())) {
 		return true;
-	}
+	} 
 
 	if (!socket.handshake.auth.token) {
 		return false;
@@ -298,10 +306,12 @@ function checkIfValidLogin(socket) {
 	}
 }
 
-async function authorize(password) {
+async function authorize(username, password) {
 	await new Promise((resolve) => setTimeout(resolve, 10));
 
-	return await bcrypt.compare(password, adminHash);
+	console.log("server adminHash", adminHash[username.toLowerCase()])
+	console.log("password send by client", password)
+	return await bcrypt.compare(password, adminHash[username.toLowerCase()]);
 }
 
 async function populateContributors(){
@@ -355,7 +365,12 @@ app.get("/api/randomtip", async (req, res) => {
 	res.json({ tip: tip });
 });
 
+app.get("/api/admins", (req, res) => {
+	res.json(adminNames);
+})
+
 app.post("/api/authorize", async (req, res) => {
+	const username = req.body.username;
 	const password = req.body.password;
 	if (!password) {
 		return res.json({ error: "Fucking enter a password bitch :)" });
@@ -363,7 +378,7 @@ app.post("/api/authorize", async (req, res) => {
 	if (typeof password !== "string") { 
 		return res.json({ error: "Tryin' to crash me huh? Fuck you." });
 	}  
-	const result = await authorize(password);
+	const result = await authorize(username, password);
 	if (!result) {
 		res.json({ result: result, error: "Incorrect password or username" });
 	} else {

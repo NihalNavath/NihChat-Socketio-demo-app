@@ -1,4 +1,7 @@
 -- NihChat changelog --
+2.0.5 (17-06-22)
+> added support for multiple admins 
+> admins name and username are now stored in .env files
 
 2.0.4 (03-12-21)
 > Fixed emoji suggester being broken, and enter being disabled if you had ":" in your text

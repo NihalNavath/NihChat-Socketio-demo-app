@@ -156,6 +156,7 @@ function connect() {
 	});
 
 	socket.on("connect", () => {
+		console.log("HEYYY")
 		if (stop) {
 			return;
 		}

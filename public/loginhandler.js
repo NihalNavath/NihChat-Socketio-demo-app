@@ -7,10 +7,21 @@ let currentPref = localStorage.getItem(lsName)
 	? Boolean(parseInt(localStorage.getItem(lsName)))
 	: null;
 let pwdFieldActive;
+let adminNames;
 
 let contributorsPageActive = false;
 
 let contributorsPagePopulated = false;
+
+async function populateAdminNames(){
+	await fetch("/api/admins")
+		.then((response) => {
+			return response.json();
+		}).then((res) => {
+			adminNames = res;
+		}	
+		);
+}
 
 if (lsUsername) {
 	const usernameField = document.getElementById("name");
@@ -30,16 +41,19 @@ function autoLogin() {
 	}
 }
 
-function checkIfAdmin() {
-	if (nameField.value.toLowerCase().includes("nihal")) {
-		pwdField.style.display = "block";
-		pwdFieldActive = true;
-	} else {
-		if (pwdFieldActive) {
-			pwdField.style.display = "none";
-			pwdFieldActive = false;
+async function checkIfAdmin() {	
+	if (!adminNames){
+		await populateAdminNames();
+	}	
+		if (adminNames.includes(nameField.value.toLowerCase())) {
+			pwdField.style.display = "block";
+			pwdFieldActive = true;
+		} else {
+			if (pwdFieldActive) {
+				pwdField.style.display = "none";
+				pwdFieldActive = false;
+			}
 		}
-	}
 }
 
 // eslint-disable-next-line no-unused-vars
@@ -73,7 +87,7 @@ async function connect() {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ password: pwdField.value }),
+			body: JSON.stringify({ username: username, password: pwdField.value }),
 		})
 			.then((response) => {
 				return response.json();
