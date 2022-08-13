@@ -33,8 +33,10 @@ const saltRounds = 10;
 
 bcrypt.genSalt(saltRounds, function (err, salt) {
 	const adminData = dotenv.config({ path: ADMIN_SECRET_FOLDER_LOCATION })["parsed"];
-	adminNames = Object.keys(adminData);
-	if (!adminData) {
+	if (adminNames){
+		adminNames = Object.keys(adminData);
+	}
+	else{
 		return console.log(`You can add admins in the file "${ADMIN_SECRET_FOLDER_LOCATION}"`)
 	};
 	Object.entries(adminData).forEach(([name, pwd]) => {
