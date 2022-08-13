@@ -33,16 +33,19 @@ const saltRounds = 10;
 
 bcrypt.genSalt(saltRounds, function (err, salt) {
 	const adminData = dotenv.config({ path: ADMIN_SECRET_FOLDER_LOCATION })["parsed"];
-	if (adminNames){
+	if (adminData){
 		adminNames = Object.keys(adminData);
 	}
 	else{
 		return console.log(`You can add admins in the file "${ADMIN_SECRET_FOLDER_LOCATION}"`)
 	};
+
+	let count = 0;
 	Object.entries(adminData).forEach(([name, pwd]) => {
 		adminHash[name] = (bcrypt.hashSync(pwd, salt));
+		count += 1;
 	});
-	console.info("Admin hash(es) generated.");
+	console.info(`Admin hash(es) generated for ${count} users.`);
 });
 
 function checkUserName(_username) {
