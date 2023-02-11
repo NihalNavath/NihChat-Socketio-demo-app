@@ -1,6 +1,6 @@
 # Live
 
-See the app running here - http://nihchat.nihalnavath.com/
+See the app running here - https://nihchat.nihalnavath.com/
 
 🎉 New v2 released on 20-10-2021! see changelog
 
